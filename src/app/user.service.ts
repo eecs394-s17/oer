@@ -8,10 +8,9 @@ export class UserService {
 		private http: Http
 		) {}
 
-	getUser() {
-
+	getUser(id) {
 		//Http request-
-		return this.http.get('http://api.asg.northwestern.edu/courses/?key=qeuayr7d9Bh1L0Jd&term=4660&instructor=516')
+		return this.http.get('http://api.asg.northwestern.edu/courses/?key=qeuayr7d9Bh1L0Jd&term=4660&instructor='+id)
 		.map((res:Response) => res.json());
 	}
 

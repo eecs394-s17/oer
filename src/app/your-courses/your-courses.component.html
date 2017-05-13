@@ -1,8 +1,7 @@
-<p>
-  your-courses works!
-  Nice!
-</p>
-<div>
-    <button (click)="loadUser()">Load profile</button>
-    {{ profile | json }}
-  </div>
+<h1>Hello {{prof_name}}</h1>
+
+<ul>
+	<li *ngFor="let course of mycourses">
+		<button (click)="loadCoursePage(course)">{{ course['subject'] + " " + course['catalog_num'] }}</button>
+	</li>
+</ul>
