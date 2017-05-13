@@ -1,3 +1,15 @@
-<p>
-  {{course.title}}
-</p>
+<h1>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h1>
+<h2>Textbooks you've added already</h2>
+
+<h2>Add a new textbook</h2>
+<form>
+	<div class="form-group">
+		<label for="textbook-title">Textbook Title</label>
+		<input type="text" id="textbook-title"><br>
+		<label for="textbook-url">URL to Textbook</label>
+		<input type="text" id="textbook-url">
+		OR
+		<button>Upload File</button><br>
+		<button type="submit">Add Textbook</button>
+	</div>
+</form>

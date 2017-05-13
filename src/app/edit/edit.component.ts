@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 
 @Component({
@@ -7,14 +8,25 @@ import { CourseService } from '../../services/course.service';
   styleUrls: ['./edit.component.css']
 })
 export class EditComponent implements OnInit {
-  course: Object = {};
-
+  course: any;
+  dataCourse: FirebaseObjectObservable<any>;
+  textbooks: any;
   constructor(private courseService: CourseService) {
-
+    this.course = this.courseService.getCourse();
+    this.dataCourse = this.courseService.getDBCourse();
   }
 
   ngOnInit() {
-    this.course = this.courseService.course;
     console.log(this.course);
+    this.dataCourse.subscribe(obj => {
+      console.log(obj);
+      if (obj.$exists()) {
+        this.textbooks = obj.textbooks;
+        console.log(this.textbooks);
+      } else {
+        console.log("No entry in database");
+        this.textbooks = [];
+      }
+    });
   }
 }
