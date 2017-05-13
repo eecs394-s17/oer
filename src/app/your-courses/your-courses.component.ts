@@ -22,10 +22,8 @@ export class YourCoursesComponent implements OnInit {
 
     populateList(courses) {
 
-        var titles = []
         for(let i in courses){
             console.log(courses[i]);
-            titles.push(courses[i]['subject'] + " " + courses[i]['catalog_num'])
         }
         this.prof_name = courses[0]['instructor'];
         this.mycourses = courses;
