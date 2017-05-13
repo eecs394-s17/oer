@@ -2,6 +2,8 @@
 
 <ul>
 	<li *ngFor="let course of mycourses">
-		<button (click)="loadCoursePage(course)">{{ course['subject'] + " " + course['catalog_num'] }}</button>
+		<button (click)="loadCoursePage(course)">
+			{{ course['subject'] + " " + course['catalog_num'] + " " + course['title']}}
+		</button>
 	</li>
 </ul>

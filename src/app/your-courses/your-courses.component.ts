@@ -12,7 +12,7 @@ export class YourCoursesComponent implements OnInit {
     constructor(private userService: UserService) {}
     ngOnInit() {this.loadUser();}
     mycourses = [];
-    prof_id = 516;
+    prof_id = 2273;
     prof_name = "";
 
     loadUser() {
