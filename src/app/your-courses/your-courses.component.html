@@ -1,3 +1,9 @@
-<p>
-  your-courses works!
-</p>
+<h1>Hello {{prof_name}}</h1>
+
+<ul>
+	<li *ngFor="let course of mycourses">
+		<button (click)="loadCoursePage(course)">
+			{{ course['subject'] + " " + course['catalog_num'] + " " + course['title']}}
+		</button>
+	</li>
+</ul>
