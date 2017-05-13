@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 const mockCourse = {
   "id": 78818,
@@ -22,31 +22,36 @@ const mockCourse = {
 
 @Injectable()
 export class CourseService {
-	private apiCourse: any;
-  private dataCourse: FirebaseObjectObservable<any>;
+	private course: any;
+  public textbooks: any[];
 
   constructor(private db: AngularFireDatabase) {
     this.assignCourse(mockCourse);
   }
 
   assignCourse(course: any) {
-    this.apiCourse = course;
-    this.dataCourse = this.db.object('/courses/' + this.apiCourse.id);
+    this.course = course;
+    this.db.list('/courses/' + this.course.id + '/textbooks').subscribe(ids => {
+      console.log(ids);
+      this.textbooks = [];
+      if (ids.length > 0) {
+        ids.forEach(function(id) {
+          this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
+            this.textbooks.push(snapshot.val());
+          });
+        }, this);
+      } else {
+        console.log("No entry in database");
+      }
+    });
   }
 
   getCourse() {
-    return this.apiCourse;
+    return this.course;
   }
 
-  getDBCourse() {
-    // this.dataCourse.subscribe(obj => {
-    //   if ((obj.hasOwnProperty('$value') && !obj['$value'])) {
-    //     return obj.textbooks;
-    //   } else {
-    //     return null;
-    //   }
-    // });
-    return this.dataCourse;
+  getTextbookIds() {
+
   }
 
   updateTextbooks() {

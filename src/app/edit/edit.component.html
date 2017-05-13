@@ -1,8 +1,12 @@
 <h1>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h1>
 <h2>Textbooks you've added already</h2>
-
+<ul>
+	<li *ngFor="let textbook of courseService.textbooks">
+		{{ textbook.title }}
+  </li>
+</ul>
 <h2>Add a new textbook</h2>
-<form>
+<form (ngSubmit)="onAddTextbook()">
 	<div class="form-group">
 		<label for="textbook-title">Textbook Title</label>
 		<input type="text" id="textbook-title"><br>

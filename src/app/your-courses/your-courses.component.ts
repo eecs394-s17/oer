@@ -27,7 +27,6 @@ const mockCourse = {
 })
 export class YourCoursesComponent implements OnInit {
 
-
   constructor(private courseService: CourseService) {}
 
   sendCourse() {
