@@ -12,20 +12,14 @@ export class EditComponent implements OnInit {
   textbookTitle: string;
   textbookLink: string;
 
+  // TODO: Remove textbooks from course.
+
   constructor(private courseService: CourseService) {
     this.course = this.courseService.getCourse();
   }
 
   ngOnInit() {
     console.log(this.course);
-    // this.courseService.getTextbookIDs().subscribe(ids => {
-    //   console.log(ids);
-    //   if (ids.$exists()) {
-    //     console.log(this.textbooks);
-    //   } else {
-    //     console.log("No entry in database");
-    //   }
-    // });
   }
 
   onSubmitTextbook() {
