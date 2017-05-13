@@ -13,9 +13,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { YourCoursesComponent } from './your-courses/your-courses.component';
 import { LandingComponent } from './landing/landing.component';
 import { SearchComponent } from './search/search.component';
+import { EditComponent } from './edit/edit.component';
+
+import { CourseService } from '../services/course.service';
 
 const appRoutes: Routes = [
   { path: 'your-courses', component: YourCoursesComponent },
+  { path: 'your-courses/edit', component: EditComponent },
   { path: 'search', component: SearchComponent },
   { path: '**', component: LandingComponent }
 ];
@@ -25,7 +29,8 @@ const appRoutes: Routes = [
     AppComponent,
     YourCoursesComponent,
     LandingComponent,
-    SearchComponent
+    SearchComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [],
+  providers: [CourseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
