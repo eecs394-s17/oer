@@ -9,9 +9,23 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 
+import { RouterModule, Routes } from '@angular/router';
+import { YourCoursesComponent } from './your-courses/your-courses.component';
+import { LandingComponent } from './landing/landing.component';
+import { SearchComponent } from './search/search.component';
+
+const appRoutes: Routes = [
+  { path: 'your-courses', component: YourCoursesComponent },
+  { path: 'search', component: SearchComponent },
+  { path: '**', component: LandingComponent }
+];
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    YourCoursesComponent,
+    LandingComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -19,6 +33,7 @@ import { environment } from '../environments/environment';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [],
   bootstrap: [AppComponent]
