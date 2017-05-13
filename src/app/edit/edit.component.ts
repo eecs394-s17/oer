@@ -9,7 +9,9 @@ import { CourseService } from '../../services/course.service';
 })
 export class EditComponent implements OnInit {
   course: any;
-  
+  textbookTitle: string;
+  textbookLink: string;
+
   constructor(private courseService: CourseService) {
     this.course = this.courseService.getCourse();
   }
@@ -24,5 +26,11 @@ export class EditComponent implements OnInit {
     //     console.log("No entry in database");
     //   }
     // });
+  }
+
+  onSubmitTextbook() {
+    this.courseService.addTextbook(this.textbookTitle, this.textbookLink);
+    this.textbookTitle = '';
+    this.textbookLink = '';
   }
 }

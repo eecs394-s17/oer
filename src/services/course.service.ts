@@ -24,6 +24,7 @@ const mockCourse = {
 export class CourseService {
 	private course: any;
   public textbooks: any[];
+  private textbookIDs: FirebaseListObservable<any>;
 
   constructor(private db: AngularFireDatabase) {
     this.assignCourse(mockCourse);
@@ -31,7 +32,8 @@ export class CourseService {
 
   assignCourse(course: any) {
     this.course = course;
-    this.db.list('/courses/' + this.course.id + '/textbooks').subscribe(ids => {
+    this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
+    this.textbookIDs.subscribe(ids => {
       console.log(ids);
       this.textbooks = [];
       if (ids.length > 0) {
@@ -50,11 +52,11 @@ export class CourseService {
     return this.course;
   }
 
-  getTextbookIds() {
-
-  }
-
-  updateTextbooks() {
-    throw {name: "UnimplementedError"};
+  addTextbook(title: string, link: string) {
+    var textbook = this.db.list('/textbooks/').push({
+      'title': title,
+      'link': link
+    });
+    this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
 }
