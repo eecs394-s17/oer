@@ -1,10 +1,10 @@
 <h1>Hello {{prof_name}}</h1>
-
+<h2>Edit textbooks for a course below</h2>
 <ul>
-	<li *ngFor="let course of mycourses">
-		<button (click)="loadCoursePage(course)">
-			{{ course['subject'] + " " + course['catalog_num'] + " " + course['title']}}
-		</button>
+	<li *ngFor="let course of courses">
+		<a routerLink='/your-courses/edit' (click)="sendCourse(course)">
+			{{ course['subject'] + " " + course['catalog_num'] + ": " + course['title']}}
+		</a>
 	</li>
 </ul>
 <!-- <a routerLink='/your-courses/edit' (click)="sendCourse()">Edit course</a> -->

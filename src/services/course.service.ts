@@ -27,7 +27,6 @@ export class CourseService {
   private textbookIDs: FirebaseListObservable<any>;
 
   constructor(private db: AngularFireDatabase) {
-    this.assignCourse(mockCourse);
   }
 
   assignCourse(course: any) {
