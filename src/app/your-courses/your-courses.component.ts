@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CourseService } from '../../services/course.service';
+import { Router } from '@angular/router';
 
 // const mockCourse = {
 //   "id": 78818,
@@ -32,7 +33,7 @@ export class YourCoursesComponent implements OnInit {
   prof_id = 2273; // TODO: get prof_id based on login
   prof_name = ""; // TODO: get prof_name based on login as well
 
-  constructor(private courseService: CourseService, private userService: UserService) {}
+  constructor(private courseService: CourseService, private userService: UserService, private router: Router) {}
 
   ngOnInit() {
     this.loadCourses();
@@ -49,5 +50,6 @@ export class YourCoursesComponent implements OnInit {
 
   sendCourse(course) {
     this.courseService.assignCourse(course);
+    this.router.navigate(['/your-courses/edit', course.id]);
   }
 }

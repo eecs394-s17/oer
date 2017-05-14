@@ -24,7 +24,11 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 
 @Injectable()
 export class CourseService {
-	private course: any;
+	private course: any = {
+    subject: '',
+    catalog_num: '',
+    title: ''
+  };
   public textbooks: any[] = [];
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
@@ -37,6 +41,7 @@ export class CourseService {
     this.course = course;
     this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
     this.textbookIDs.subscribe(ids => {
+      console.log("Textbook IDs retrieved...");
       console.log(ids);
       this.textbooks = [];
       if (ids.length > 0) {

@@ -2,8 +2,7 @@
 	<h3>Hello {{prof_name}}</h3>
 	<h5>Your Courses</h5>
 	<div class="collection">
-		<a *ngFor="let course of courses" 
-			routerLink='/your-courses/edit' 
+		<a *ngFor="let course of courses"  
 			(click)="sendCourse(course)" 
 			class="collection-item">
 			 {{ course['subject'] + " " + course['catalog_num'] + ": " + course['title']}}
