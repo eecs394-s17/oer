@@ -9,7 +9,7 @@ import { EditComponent } from './edit/edit.component';
 
 const appRoutes: Routes = [
   { path: 'your-courses', component: YourCoursesComponent },
-  { path: 'your-courses/edit', component: EditComponent },
+  { path: 'your-courses/edit/:id', component: EditComponent },
   { path: 'search', component: SearchComponent },
   { path: '**', component: LandingComponent }
 ];

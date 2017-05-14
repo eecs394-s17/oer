@@ -1,11 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
+import { UserService } from '../../services/user.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.css'],
+  providers: [UserService]
 })
 export class EditComponent implements OnInit {
   course: any;
@@ -14,12 +18,27 @@ export class EditComponent implements OnInit {
   textbookFile: File = null;
   storageRef: any;
 
-  constructor(private courseService: CourseService) {
+  constructor(
+    private courseService: CourseService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService
+  ) {
     this.course = this.courseService.getCourse();
+    console.log(this.course);
   }
 
   ngOnInit() {
-    console.log(this.course);
+    if (this.course.title == '') {
+      console.log("Calling API to get course data...");
+      this.route.params
+        .switchMap((params) => this.userService.getCourse(params['id']))
+        .subscribe((course) => {
+          this.courseService.assignCourse(course[0]);
+          this.course = this.courseService.getCourse();
+          console.log(this.course);
+        });
+    }
   }
 
   removeTextbook(id) {
