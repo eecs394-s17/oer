@@ -1,6 +1,6 @@
 <div class="container">
 	<h1>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h1>
-	<h2>Textbooks you've added already</h2>
+	<h2>Textbooks you've added to this course already</h2>
 	<ul>
 		<li *ngFor="let textbook of courseService.textbooks">
 			<a href="{{textbook.link}}">{{ textbook.title }}</a>
@@ -14,7 +14,7 @@
 			<label for="textbook-url">URL to Textbook</label>
 			<input type="text" id="textbook-url" [(ngModel)]="textbookLink" name="link" required>
 			OR
-			<button>Upload File</button><br>
+			<button type="button" (click)="uploadTextbook()">Choose File...</button><br>
 			<button type="submit" [disabled]="!textbookForm.form.valid">Add Textbook</button>
 		</div>
 	</form>

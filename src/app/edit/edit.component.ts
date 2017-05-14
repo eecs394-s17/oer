@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import * as firebase from 'firebase/app';
+import { FirebaseApp } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 
@@ -11,11 +13,13 @@ export class EditComponent implements OnInit {
   course: any;
   textbookTitle: string;
   textbookLink: string;
+  storageRef: any;
 
   // TODO: Remove textbooks from course.
 
-  constructor(private courseService: CourseService) {
+  constructor(@Inject(FirebaseApp) firebaseApp: any, private courseService: CourseService) {
     this.course = this.courseService.getCourse();
+    this.storageRef = firebaseApp.storage().ref();
   }
 
   ngOnInit() {
@@ -26,5 +30,9 @@ export class EditComponent implements OnInit {
     this.courseService.addTextbook(this.textbookTitle, this.textbookLink);
     this.textbookTitle = '';
     this.textbookLink = '';
+  }
+
+  uploadTextbook() {
+    console.log("Not implemented");
   }
 }

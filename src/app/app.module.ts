@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import 'firebase/storage';
 import { environment } from '../environments/environment';
 
 import { RouterModule, Routes } from '@angular/router';
