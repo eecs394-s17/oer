@@ -1,0 +1,9 @@
+.right-border{
+	border-right: solid 1px grey;
+}
+h5{
+	margin-top: 40px;
+}
+.clear-textbook{
+	cursor: pointer;
+}
