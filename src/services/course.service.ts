@@ -38,7 +38,9 @@ export class CourseService {
       if (ids.length > 0) {
         ids.forEach(function(id) {
           this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
-            this.textbooks.push(snapshot.val());
+            var textbook = snapshot.val();
+            textbook['key'] = id.$key;  // Hold onto key mapping to textbook id in course object
+            this.textbooks.push(textbook);
           });
         }, this);
       } else {
@@ -64,5 +66,9 @@ export class CourseService {
       'catalog_num': this.course.catalog_num
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
+  }
+
+  removeTextbookFromCourse(key: string) {
+    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
   }
 }
