@@ -1,14 +1,23 @@
 <div class="container" id="landing">
 	<h1>Northwestern OER</h1>
+	<p>
+		Welcome to the the Northwestern OER system where you can find free textbooks/class 
+		materials.
+	</p>
 	<div class="row">
-		<div class="col-md-6">
-			<h2>Students</h2>
-			<a routerLink="/search">Find a textbook...</a>
+		<div class="col s12 m6">
+			<h4>Students</h4>
+			<a class="waves-effect waves-light btn-large purple lighten-1" routerLink="/search">
+				<i class="material-icons left">search</i>Find a textbook...
+			</a>
+
 		</div>
-		<div class="col-md-6">
-			<h2>Professors</h2>
+		<div class="col s12 m6">
+			<h4>Professors</h4>
 			<!-- This should go to a log-in page instead at some point. -->
-			<a routerLink="/your-courses">Login</a>
+			<a class="waves-effect waves-light btn-large purple lighten-1" routerLink="/your-courses">
+				<i class="material-icons left">forward</i>Login
+			</a>
 		</div>
 	</div>
 </div>
