@@ -25,6 +25,7 @@ const appRoutes: Routes = [
   { path: '**', component: LandingComponent }
 ];
 
+
 @NgModule({
   declarations: [
     AppComponent,

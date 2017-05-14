@@ -1,11 +1,12 @@
 <div class="container">
-	<h1>Hello {{prof_name}}</h1>
-	<h2>Edit textbooks for a course below</h2>
-	<ul>
-		<li *ngFor="let course of courses">
-			<a routerLink='/your-courses/edit' (click)="sendCourse(course)">
-				{{ course['subject'] + " " + course['catalog_num'] + ": " + course['title']}}
-			</a>
-		</li>
-	</ul>
+	<h3>Hello {{prof_name}}</h3>
+	<h5>Your Courses</h5>
+	<div class="collection">
+		<a *ngFor="let course of courses" 
+			routerLink='/your-courses/edit' 
+			(click)="sendCourse(course)" 
+			class="collection-item">
+			 {{ course['subject'] + " " + course['catalog_num'] + ": " + course['title']}}
+		</a>
+	</div>
 </div>
