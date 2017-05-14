@@ -1,6 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import * as firebase from 'firebase/app';
-import { FirebaseApp } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 
@@ -11,15 +9,13 @@ import { CourseService } from '../../services/course.service';
 })
 export class EditComponent implements OnInit {
   course: any;
-  textbookTitle: string;
-  textbookLink: string;
+  textbookTitle: string = '';
+  textbookLink: string = '';
+  textbookFile: File = null;
   storageRef: any;
 
-  // TODO: Remove textbooks from course.
-
-  constructor(@Inject(FirebaseApp) firebaseApp: any, private courseService: CourseService) {
+  constructor(private courseService: CourseService) {
     this.course = this.courseService.getCourse();
-    this.storageRef = firebaseApp.storage().ref();
   }
 
   ngOnInit() {
@@ -31,12 +27,24 @@ export class EditComponent implements OnInit {
   }
 
   onSubmitTextbook() {
-    this.courseService.addTextbook(this.textbookTitle, this.textbookLink);
-    this.textbookTitle = '';
-    this.textbookLink = '';
+    if (this.textbookLink == '' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
+      //TODO: complain if the file isn't a pdf
+      console.log("file is not a pdf. Ignoring submit request.");
+    } else {
+      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile);
+      this.textbookTitle = '';
+      this.textbookLink = '';
+      this.textbookFile = null;
+    }
   }
 
-  uploadTextbook() {
-    console.log("Not implemented");
+  textbookFileChange(e) {
+    if (e.target.files.length > 0) {
+      console.log("New file selected: ");
+      console.log(e.target.files[0]);
+      this.textbookFile = e.target.files[0];
+    } else {
+      this.textbookFile = null;
+    }
   }
 }

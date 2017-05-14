@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import * as firebase from 'firebase/app';
+import { FirebaseApp } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 // const mockCourse = {
@@ -25,8 +27,10 @@ export class CourseService {
 	private course: any;
   public textbooks: any[];
   private textbookIDs: FirebaseListObservable<any>;
+  private storageRef;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(@Inject(FirebaseApp) firebaseApp: any, private db: AngularFireDatabase) {
+    this.storageRef = firebaseApp.storage().ref();
   }
 
   assignCourse(course: any) {
@@ -53,10 +57,30 @@ export class CourseService {
     return this.course;
   }
 
-  addTextbook(title: string, link: string) {
+  removeTextbookFromCourse(key: string) {
+    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
+  }
+
+  addTextbook(title: string, link: string, file: File) {
+    if (link != '') {
+      this.updateDbNewTextbook(title, link);
+    } else {  //upload the file
+      var fileRef = this.storageRef.child(file.name)
+      fileRef.put(file).then(function(snapshot) {
+        console.log('Uploaded textbook!');
+        fileRef.getDownloadURL().then(function(path) {
+          link = path;
+          console.log(link);
+          this.updateDbNewTextbook(title, link);
+        }.bind(this));
+      }.bind(this));
+    }
+  }
+
+  private updateDbNewTextbook(title: string, path: string) {
     var textbook = this.db.list('/textbooks/').push({
       'title': title,
-      'link': link
+      'link': path
     });
     this.db.object('/courses/' + this.course.id).update({
       'title': this.course.title,
@@ -66,9 +90,5 @@ export class CourseService {
       'catalog_num': this.course.catalog_num
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
-  }
-
-  removeTextbookFromCourse(key: string) {
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
   }
 }
