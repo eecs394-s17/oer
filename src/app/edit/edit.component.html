@@ -4,6 +4,7 @@
 	<ul>
 		<li *ngFor="let textbook of courseService.textbooks">
 			<a href="{{textbook.link}}">{{ textbook.title }}</a>
+			<button (click)="removeTextbook(textbook.key)">Remove</button>
 	  </li>
 	</ul>
 	<h5>Add a new textbook</h5>

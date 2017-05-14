@@ -26,6 +26,10 @@ export class EditComponent implements OnInit {
     console.log(this.course);
   }
 
+  removeTextbook(id) {
+    this.courseService.removeTextbookFromCourse(id);
+  }
+
   onSubmitTextbook() {
     this.courseService.addTextbook(this.textbookTitle, this.textbookLink);
     this.textbookTitle = '';
