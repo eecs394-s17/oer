@@ -13,10 +13,11 @@
 			<label for="textbook-title">Textbook Title</label>
 			<input type="text" id="textbook-title" [(ngModel)]="textbookTitle" name="title" required><br>
 			<label for="textbook-url">URL to Textbook</label>
-			<input type="text" id="textbook-url" [(ngModel)]="textbookLink" name="link" required>
+			<input type="text" id="textbook-url" [(ngModel)]="textbookLink" name="link" [disabled]="textbookFile != null">
 			OR
-			<button type="button" (click)="uploadTextbook()">Choose File...</button><br>
-			<button type="submit" [disabled]="!textbookForm.form.valid">Add Textbook</button>
+			<input type="file" (change)="textbookFileChange($event)" placeholder="Upload file..." [disabled]="textbookLink != ''"><br>
+			<!-- <ng2-file-input (onChange)="onFileChange($event)"></ng2-file-input> -->
+			<button type="submit" [disabled]="!textbookForm.form.valid && textbookLink == ''">Add Textbook</button>
 		</div>
 	</form>
 </div>
