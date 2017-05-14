@@ -1,7 +1,7 @@
 <div class="container">
 	<h3>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h3>
 	<h5>Textbooks you've added to this course already</h5>
-	<ul *ngIf="courseService.textbooks" class="collection">
+	<ul *ngIf="courseService.textbooks.length" class="collection">
 		<li *ngFor="let textbook of courseService.textbooks" class="collection-item">
 			<div>
 				<a href="{{textbook.link}}">{{ textbook.title }}</a>
@@ -9,7 +9,7 @@
 			</div>	
 	 	</li>	
 	</ul>
-	<h6 *ngIf="!courseService.textbooks" class="blue-text lighten-2-text">Looks like you have no textbooks yet</h6>
+	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">Looks like you have no textbooks yet</h6>
 	<h5>Add a new textbook</h5>
 	<form (ngSubmit)="onSubmitTextbook()" #textbookForm="ngForm">
 		<div class="form-group">

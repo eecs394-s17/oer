@@ -25,7 +25,7 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 @Injectable()
 export class CourseService {
 	private course: any;
-  public textbooks: any[];
+  public textbooks: any[] = [];
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
 
