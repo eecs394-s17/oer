@@ -8,12 +8,12 @@ export class UserService {
 
 	getUser(id) {
 		//Http request-
-		return this.http.get('http://api.asg.northwestern.edu/courses/?key=qeuayr7d9Bh1L0Jd&term=4660&instructor='+id)
+		return this.http.get('https://api.asg.northwestern.edu/courses/?key=qeuayr7d9Bh1L0Jd&term=4660&instructor='+id)
 		.map((res:Response) => res.json());
 	}
 
   getCourse(id) {
-    return this.http.get('http://api.asg.northwestern.edu/courses/?key=qeuayr7d9Bh1L0Jd&id='+id)
+    return this.http.get('https://api.asg.northwestern.edu/courses/?key=qeuayr7d9Bh1L0Jd&id='+id)
       .map((res: Response) => res.json());
   }
 }
