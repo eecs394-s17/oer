@@ -96,4 +96,5 @@ export class CourseService {
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
+
 }
