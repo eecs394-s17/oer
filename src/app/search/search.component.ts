@@ -10,58 +10,21 @@ import { Subject } from 'rxjs/Subject';
 })
 export class SearchComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
-  departmentSubject: Subject<any>;
-  
+  equalToProp: Subject<any>;
+  orderByChildProp: Subject<any>;
   //search bar input
   stringText: string ='';
 
   ///selected option
   selectedValue: string = '';
-
   constructor(db: AngularFireDatabase) {
-    this.departmentSubject = new Subject();
-    // console.log(this.selectedValue);
-    // if (this.selectedValue == "Title") {
-    //   console.log('title selected');
-    //   this.items = db.list('/textbooks', {
-    //     query: {
-    //       orderByChild: 'title',
-    //       equalTo: this.departmentSubject
-    //       //startAt: this.departmentSubject
-    //     }
-    //   });
-    // }
-    // if (this.selectedValue == "Courses") {
-    //   console.log("courses selected");
-    //   this.items = db.list('/courses', {
-    //     query: {
-    //       orderByChild: 'catalog_num',
-    //       equalTo: this.departmentSubject
-    //       //startAt: this.departmentSubject
-    //     }
-    //   });
-    // }
-    // if (this.selectedValue == "Professor") {
-    //   console.log("professor selected");
-    //   this.items = db.list('/courses', {
-    //     query: {
-    //       orderByChild: 'instructor',
-    //       equalTo: this.departmentSubject
-    //       //startAt: this.departmentSubject
-    //     }
-    //   });
-    // }
-      // this.items = db.list('/courses', {
-      //   query: {
-      //     orderByChild: 'catalog_num',
-      //     equalTo: this.departmentSubject
-      //     //startAt: this.departmentSubject
-      //   }
-      // });
+    this.orderByChildProp = new Subject();
+    this.equalToProp = new Subject();
+
       this.items = db.list('/courses', {
         query: {
-          orderByChild: 'title',
-          equalTo: this.departmentSubject
+          orderByChild: this.orderByChildProp,
+          equalTo: this.equalToProp
           
         }
       });
@@ -74,7 +37,17 @@ export class SearchComponent implements OnInit {
     console.log(this.stringText);
     console.log(this.selectedValue);
     //this.departmentSubject.next("110-6"); 
-    this.departmentSubject.next(this.stringText); 
+
+    if(this.selectedValue == 'Title') {
+      this.orderByChildProp.next('title');
+    }
+    if(this.selectedValue == 'Courses') {
+      this.orderByChildProp.next('catalog_num');
+    }
+    if(this.selectedValue == 'Professor') {
+      this.orderByChildProp.next('instructor');
+    }
+    this.equalToProp.next(this.stringText); 
 
   }
   
