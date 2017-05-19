@@ -33,22 +33,18 @@ export class SearchComponent implements OnInit {
 
   }
   searching(){
-    console.log('searching');
-    console.log(this.stringText);
-    console.log(this.selectedValue);
-    //this.departmentSubject.next("110-6"); 
-
-    if(this.selectedValue == 'Title') {
-      this.orderByChildProp.next('title');
-    }
-    if(this.selectedValue == 'Courses') {
-      this.orderByChildProp.next('catalog_num');
-    }
-    if(this.selectedValue == 'Professor') {
-      this.orderByChildProp.next('instructor');
+    console.log("Searching for " + this.selectedValue + "s matching " + this.stringText);
+    switch (this.selectedValue) {
+      case 'Title':
+        this.orderByChildProp.next('title');
+        break;
+      case 'Course':
+        this.orderByChildProp.next('catalog_num');
+        break;
+      case 'Professor':
+        this.orderByChildProp.next('instructor');
+        break;
     }
     this.equalToProp.next(this.stringText); 
-
   }
-  
 }
