@@ -59,6 +59,9 @@ export class EditComponent implements OnInit {
   }
 
   onSubmitEditTextbook() {
+    var key = this.editing;
+    console.log(key);
+    this.courseService.editTextbook(key);
     this.editing = '';
   }
 

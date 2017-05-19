@@ -63,7 +63,14 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
+    var textID;
+    this.db.object('/courses/' + this.course.id + '/textbooks/' + key, {preserveSnapshot: true}).subscribe(snapshot => {
+      textID = snapshot.val()
+    });
+    console.log('before: ', textID);
+    this.db.object('/textbooks/' + textID).remove();
+    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
+    console.log('after: ', textID);
   }
 
   addTextbook(title: string, link: string, file: File) {
@@ -95,6 +102,16 @@ export class CourseService {
       'catalog_num': this.course.catalog_num
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
+  }
+
+  editTextbook(key: string) {
+    this.db.object('/textbooks/' + key).update({'title': 'Physics'});
+    var textbook = this.db.object('/textbooks/' + key, {preserveSnapshot: true});
+    textbook.subscribe(snapshot => {
+      console.log(snapshot.key)
+      console.log(snapshot.val())
+    });
+    //console.log(this.db.object('/textbooks/' + key).val());
   }
 
 }
