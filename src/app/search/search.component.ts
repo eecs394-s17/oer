@@ -11,6 +11,9 @@ import { Subject } from 'rxjs/Subject';
 export class SearchComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   departmentSubject: Subject<any>;
+  stringText: string ='';
+  optionSelected: string = '';
+  selectedValue: string = '';
 
   constructor(db: AngularFireDatabase) {
     this.departmentSubject = new Subject();
@@ -18,6 +21,7 @@ export class SearchComponent implements OnInit {
       query: {
         orderByChild: 'catalog_num',
         equalTo: this.departmentSubject
+        //startAt: this.departmentSubject
       }
     });
   }
@@ -26,7 +30,10 @@ export class SearchComponent implements OnInit {
   }
   searching(){
     console.log('searching');
-    this.departmentSubject.next("110-6"); 
+    console.log(this.stringText);
+    console.log(this.selectedValue);
+    this.departmentSubject.next("110"); 
+
   }
   
 }
