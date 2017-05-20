@@ -63,14 +63,15 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    var textID;
+    var id;
     this.db.object('/courses/' + this.course.id + '/textbooks/' + key, {preserveSnapshot: true}).subscribe(snapshot => {
-      textID = snapshot.val()
+      id = snapshot.val()
     });
-    console.log('before: ', textID);
+    const textID = id;
+    console.log('Before: ',textID)
+    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
+    console.log('After: ',textID)
     this.db.object('/textbooks/' + textID).remove();
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
-    console.log('after: ', textID);
   }
 
   addTextbook(title: string, link: string, file: File) {
@@ -104,14 +105,14 @@ export class CourseService {
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
 
-  editTextbook(key: string) {
-    this.db.object('/textbooks/' + key).update({'title': 'Physics'});
-    var textbook = this.db.object('/textbooks/' + key, {preserveSnapshot: true});
+  editTextbook(key: any, title: string) {
+    var textbook = this.db.object('/courses/' + this.course.id + '/textbooks/' + key, {preserveSnapshot: true});
     textbook.subscribe(snapshot => {
       console.log(snapshot.key)
       console.log(snapshot.val())
+      this.db.object('/textbooks/' + snapshot.val()).update({'title': title})
     });
-    //console.log(this.db.object('/textbooks/' + key).val());
+    this.assignCourse(this.course);
   }
 
 }
