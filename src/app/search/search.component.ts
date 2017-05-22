@@ -8,13 +8,27 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  courses: FirebaseListObservable<any[]>;
+  coursesQuery: FirebaseListObservable<any[]>;
   //search bar input
   stringText: string ='';
+  subjects = {};
+  subjectKeys = [];
 
   ///selected option
   constructor(private db: AngularFireDatabase) {
-    this.courses = db.list('courses/');
+    this.coursesQuery = db.list('courses/');
+
+    this.coursesQuery.subscribe(courses => {
+      this.subjects = {};      
+      courses.forEach(function(course) {
+        if (course.subject in this.subjects) {
+          this.subjects[course.subject].push(course);
+        } else {
+          this.subjects[course.subject] = [course];
+        }
+      }, this);
+      this.subjectKeys = Object.keys(this.subjects);
+    });
   }
   ngOnInit(){
 
