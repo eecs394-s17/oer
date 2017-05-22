@@ -39,6 +39,10 @@ export class CourseService {
 
   assignCourse(course: any) {
     this.course = course;
+    // Use Firebase key if course object is from DB and not from API.
+    if (this.course.$key) {
+      this.course.id = this.course.$key;
+    }
     this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
     this.textbookIDs.subscribe(ids => {
       console.log("Textbook IDs retrieved...");

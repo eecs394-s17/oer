@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
-
+import { CourseService } from '../../services/course.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -15,7 +16,11 @@ export class SearchComponent implements OnInit {
   subjectKeys = [];
 
   ///selected option
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private db: AngularFireDatabase, 
+    private courseService: CourseService,
+    private router: Router
+  ) {
     this.coursesQuery = db.list('courses/');
 
     this.coursesQuery.subscribe(courses => {
@@ -35,5 +40,9 @@ export class SearchComponent implements OnInit {
   }
   searching(){
     
+  }
+  viewCourse(course) {
+    this.courseService.assignCourse(course);
+    this.router.navigate(['/view', course.$key]);
   }
 }

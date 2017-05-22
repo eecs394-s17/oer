@@ -4,7 +4,7 @@
 	<div class="collection">
 		<a *ngFor="let course of courses"  
 			(click)="sendCourse(course)" 
-			class="collection-item">
+			class="collection-item course">
 			 {{ course['subject'] + " " + course['catalog_num'] + ": " + course['title']}}
 		</a>
 	</div>

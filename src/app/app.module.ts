@@ -9,6 +9,7 @@ import { YourCoursesComponent } from './your-courses/your-courses.component';
 import { LandingComponent } from './landing/landing.component';
 import { SearchComponent } from './search/search.component';
 import { EditComponent } from './edit/edit.component';
+import { ViewComponent } from './view/view.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -23,7 +24,8 @@ import { CourseService } from '../services/course.service';
     YourCoursesComponent,
     LandingComponent,
     SearchComponent,
-    EditComponent
+    EditComponent,
+    ViewComponent
   ],
   imports: [
     BrowserModule,

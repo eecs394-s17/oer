@@ -6,12 +6,14 @@ import { YourCoursesComponent } from './your-courses/your-courses.component';
 import { LandingComponent } from './landing/landing.component';
 import { SearchComponent } from './search/search.component';
 import { EditComponent } from './edit/edit.component';
+import { ViewComponent } from './view/view.component';
 
 const appRoutes: Routes = [
   { path: 'your-courses', component: YourCoursesComponent },
   { path: 'your-courses/edit/:id', component: EditComponent },
   { path: 'search', component: SearchComponent },
-  { path: '**', component: LandingComponent }
+  { path: 'view/:id', component: ViewComponent },
+  { path: '**', component: LandingComponent },
 ];
 
 @NgModule({
