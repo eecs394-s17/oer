@@ -17,6 +17,7 @@ export class EditComponent implements OnInit {
   textbookLink: string = '';
   textbookFile: File = null;
   storageRef: any;
+  editing: string = '';
 
   constructor(
     private courseService: CourseService,
@@ -55,6 +56,12 @@ export class EditComponent implements OnInit {
       this.textbookLink = '';
       this.textbookFile = null;
     }
+  }
+
+  onSubmitEditTextbook(title: string) {
+    const key = this.editing;
+    this.courseService.editTextbook(key, title);
+    this.editing = '';
   }
 
   textbookFileChange(e) {
