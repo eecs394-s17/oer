@@ -21,9 +21,11 @@
       <div class="col s12" *ngFor="let subjectKey of subjectKeys">
         <h4>{{subjectKey}}</h4>
         <ul class="collection">
-          <li *ngFor="let course of subjects[subjectKey]" class="collection-item" >
+          <a *ngFor="let course of subjects[subjectKey]"
+             (click)="viewCourse(course)"
+             class="collection-item course">
             {{ course.subject + " " + course.catalog_num + " " + course.title }}
-          </li>
+          </a>
         </ul>        
       </div>
     </div>

@@ -1,0 +1,14 @@
+<div class="container">
+	<h3>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h3>
+	<h5>Course Textbooks</h5>
+	<div *ngIf="courseService.textbooks.length" class="collection">
+		<a *ngFor="let textbook of courseService.textbooks"
+		   class="collection-item textbook"
+		   href="{{textbook.link}}">
+		   {{ textbook.title }}
+		</a>
+	</div>
+	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">
+		Looks like there are no textbooks added for this course yet
+	</h6>
+</div>
