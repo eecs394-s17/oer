@@ -33,7 +33,7 @@ export class CourseService {
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
 
-  constructor(@Inject(FirebaseApp) firebaseApp: any, private db: AngularFireDatabase) {
+  constructor(@Inject(FirebaseApp) public firebaseApp: any, private db: AngularFireDatabase) {
     this.storageRef = firebaseApp.storage().ref();
   }
 
@@ -46,10 +46,11 @@ export class CourseService {
       this.textbooks = [];
       if (ids.length > 0) {
         ids.forEach(function(id) {
-          this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
+          var subscription = this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
             var textbook = snapshot.val();
             textbook['key'] = id.$key;  // Hold onto key mapping to textbook id in course object
             this.textbooks.push(textbook);
+            subscription.unsubscribe();
           });
         }, this);
       } else {
@@ -63,15 +64,7 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    var id;
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key, {preserveSnapshot: true}).subscribe(snapshot => {
-      id = snapshot.val()
-    });
-    const textID = id;
-    console.log('Before: ',textID)
     this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
-    console.log('After: ',textID)
-    this.db.object('/textbooks/' + textID).remove();
   }
 
   addTextbook(title: string, link: string, file: File) {
@@ -105,14 +98,14 @@ export class CourseService {
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
 
-  editTextbook(key: any, title: string) {
-    var textbook = this.db.object('/courses/' + this.course.id + '/textbooks/' + key, {preserveSnapshot: true});
-    textbook.subscribe(snapshot => {
-      console.log(snapshot.key)
-      console.log(snapshot.val())
-      this.db.object('/textbooks/' + snapshot.val()).update({'title': title})
-    });
-    this.assignCourse(this.course);
+  editTextbook(key: string, title: string) {
+    console.log(key);
+    var textbookRef = this.firebaseApp.database().ref('/courses/' + this.course.id + '/textbooks/' + key);
+    textbookRef.once('value').then(function(snapshot) {
+      var textbookId = snapshot.val();
+      this.db.object('/textbooks/' + textbookId).update({'title': title});
+      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
+      this.db.list('/courses/' + this.course.id + '/textbooks/').push(textbookId);
+    }.bind(this));
   }
-
 }
