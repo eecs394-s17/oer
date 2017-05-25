@@ -1,3 +1,26 @@
-<p>
-  search works!
-</p>
+<br >
+<br >
+<div class="row">
+  <div class="col s10 offset-s1">
+    <div class="row">
+      <div class="col s12">
+        <label for="first_name">Search for OER textbooks by course number, class name, or professor...</label>
+        <input placeholder="Insert Search Text Here" id="searchText" type="text" class="validate" [value] = "query.searchName" [(ngModel)] = "query.searchName">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12" *ngFor="let subjectKey of subjectKeys">
+        <div *ngIf="(subjects[subjectKey] | filterBy: query).length > 0">
+          <h4 >{{subjectKey}}</h4>
+          <ul class="collection">
+            <a *ngFor="let course of subjects[subjectKey] | filterBy: query"
+               (click)="viewCourse(course)"
+               class="collection-item course">
+              {{ course.searchName }}
+            </a>
+          </ul>      
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { FirebaseApp } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { Course } from '../classes/course';
 
 // const mockCourse = {
 //   "id": 78818,
@@ -24,11 +25,7 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 
 @Injectable()
 export class CourseService {
-	private course: any = {
-    subject: '',
-    catalog_num: '',
-    title: ''
-  };
+	private course: Course = new Course();
   public textbooks: any[] = [];
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
@@ -38,7 +35,7 @@ export class CourseService {
   }
 
   assignCourse(course: any) {
-    this.course = course;
+    this.course.setCourse(course);
     this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
     this.textbookIDs.subscribe(ids => {
       console.log("Textbook IDs retrieved...");
@@ -93,7 +90,8 @@ export class CourseService {
       'term': this.course.term,
       'instructor': this.course.instructor,
       'subject': this.course.subject,
-      'catalog_num': this.course.catalog_num
+      'catalog_num': this.course.catalog_num,
+      'topic': this.course.topic,
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }

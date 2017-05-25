@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { CourseService } from '../../services/course.service';
+import { Router } from '@angular/router';
+import { Course } from '../../classes/course';
 
 @Component({
   selector: 'app-search',
@@ -6,10 +10,37 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  coursesQuery: FirebaseListObservable<any[]>;
+  //search bar input
+  query: any = { searchName: null };
+  subjects = {};
+  subjectKeys = [];
 
-  constructor() { }
+  ///selected option
+  constructor(
+    private db: AngularFireDatabase, 
+    private courseService: CourseService,
+    private router: Router
+  ) {
+    this.coursesQuery = db.list('courses/');
 
-  ngOnInit() {
+    this.coursesQuery.subscribe(courses => {
+      this.subjects = {};
+      courses.forEach(function(course) {
+        if (course.subject in this.subjects) {
+          this.subjects[course.subject].push(new Course(course));
+        } else {
+          this.subjects[course.subject] = [new Course(course)];
+        }
+      }, this);
+      this.subjectKeys = Object.keys(this.subjects);
+    });
   }
 
+  ngOnInit(){}
+
+  viewCourse(course) {
+    this.courseService.assignCourse(course);
+    this.router.navigate(['/view', course.id]);
+  }
 }

@@ -9,6 +9,7 @@ import { YourCoursesComponent } from './your-courses/your-courses.component';
 import { LandingComponent } from './landing/landing.component';
 import { SearchComponent } from './search/search.component';
 import { EditComponent } from './edit/edit.component';
+import { ViewComponent } from './view/view.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -17,13 +18,16 @@ import { environment } from '../environments/environment';
 
 import { CourseService } from '../services/course.service';
 
+import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     YourCoursesComponent,
     LandingComponent,
     SearchComponent,
-    EditComponent
+    EditComponent,
+    ViewComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +35,8 @@ import { CourseService } from '../services/course.service';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Ng2FilterPipeModule,
   ],
   providers: [CourseService],
   bootstrap: [AppComponent]
