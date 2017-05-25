@@ -5,7 +5,7 @@
 		<a *ngFor="let course of courses"  
 			(click)="sendCourse(course)" 
 			class="collection-item course">
-			 {{ course['subject'] + " " + course['catalog_num'] + ": " + course['title']}}
+			 {{ course['subject'] + " " + course['catalog_num'] + ": " + (course['topic'] ? course['topic'] : course['title'])}}
 		</a>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-	<h3>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h3>
+	<h3>{{course.fullName}}</h3>
 	<h5>Textbooks you've added to this course already</h5>
 	<ul *ngIf="courseService.textbooks.length" class="collection">
 		<li *ngFor="let textbook of courseService.textbooks" class="collection-item">

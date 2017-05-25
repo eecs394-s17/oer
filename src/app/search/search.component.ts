@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 import { Router } from '@angular/router';
+import { Course } from '../../classes/course';
 
 @Component({
   selector: 'app-search',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class SearchComponent implements OnInit {
   coursesQuery: FirebaseListObservable<any[]>;
   //search bar input
-  query: string ='';
+  query: any = { searchName: null };
   subjects = {};
   subjectKeys = [];
 
@@ -24,25 +25,22 @@ export class SearchComponent implements OnInit {
     this.coursesQuery = db.list('courses/');
 
     this.coursesQuery.subscribe(courses => {
-      this.subjects = {};      
+      this.subjects = {};
       courses.forEach(function(course) {
         if (course.subject in this.subjects) {
-          this.subjects[course.subject].push(course);
+          this.subjects[course.subject].push(new Course(course));
         } else {
-          this.subjects[course.subject] = [course];
+          this.subjects[course.subject] = [new Course(course)];
         }
       }, this);
       this.subjectKeys = Object.keys(this.subjects);
     });
   }
-  ngOnInit(){
 
-  }
-  searching(){
-    
-  }
+  ngOnInit(){}
+
   viewCourse(course) {
     this.courseService.assignCourse(course);
-    this.router.navigate(['/view', course.$key]);
+    this.router.navigate(['/view', course.id]);
   }
 }
