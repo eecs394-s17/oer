@@ -96,7 +96,8 @@ export class CourseService {
       'term': this.course.term,
       'instructor': this.course.instructor,
       'subject': this.course.subject,
-      'catalog_num': this.course.catalog_num
+      'catalog_num': this.course.catalog_num,
+      'topic': this.course.topic,
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }

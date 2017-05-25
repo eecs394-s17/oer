@@ -18,6 +18,8 @@ import { environment } from '../environments/environment';
 
 import { CourseService } from '../services/course.service';
 
+import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,8 @@ import { CourseService } from '../services/course.service';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Ng2FilterPipeModule,
   ],
   providers: [CourseService],
   bootstrap: [AppComponent]

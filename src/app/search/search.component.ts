@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class SearchComponent implements OnInit {
   coursesQuery: FirebaseListObservable<any[]>;
   //search bar input
-  stringText: string ='';
+  query: string ='';
   subjects = {};
   subjectKeys = [];
 
