@@ -19,6 +19,7 @@ import { environment } from '../environments/environment';
 import { CourseService } from '../services/course.service';
 
 import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
     LandingComponent,
     SearchComponent,
     EditComponent,
-    ViewComponent
+    ViewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
