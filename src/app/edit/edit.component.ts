@@ -20,7 +20,7 @@ export class EditComponent implements OnInit {
   editing: string = '';
 
   constructor(
-    private courseService: CourseService,
+    public courseService: CourseService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService

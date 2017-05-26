@@ -14,7 +14,7 @@ export class ViewComponent implements OnInit {
   course: any;
 
   constructor(
-    private courseService: CourseService,
+    public courseService: CourseService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService
