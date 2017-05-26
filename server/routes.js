@@ -3,7 +3,7 @@ module.exports = function(app, passport) {
   // For all GET requests, send back index.html
   // so that PathLocationStrategy can be used
   app.get('/*', function(req, res) {
-    console.log(req.user);
+    res.setHeader('failure-flash', req.flash('error'));
     res.sendFile(path.join(__dirname + '/../dist/index.html'));
   });
 
@@ -22,10 +22,11 @@ module.exports = function(app, passport) {
   // });
 
   app.post('/login', passport.authenticate('ldapauth', {
-    successRedirect: '/',
-    failureRedirect: '/login',
+    // successRedirect: '/',
+    failureRedirect: '/bruh',
     failureFlash: true
   }), function(req, res) {
+
     res.send({status: 'ok'});
   });
 };

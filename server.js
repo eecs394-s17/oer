@@ -5,10 +5,15 @@ const port = process.env.PORT || 8080;
 var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 // Run the app by serving the static files
 // in the dist directory
 app.use(express.static(__dirname + '/dist'));
+app.use(cookieParser(process.env.SECRET));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({'extended': 'false'}));
 
 // required for passport
 app.use(session({secret: process.env.SECRET}));
