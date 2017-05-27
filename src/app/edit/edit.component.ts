@@ -15,7 +15,7 @@ export class EditComponent implements OnInit {
   course: any;
   textbookTitle: string = '';
   textbookLink: string = '';
-  description: string = '';
+  textbookDescription: string = '';
   textbookFile: File = null;
   storageRef: any;
   editing: string = '';
@@ -52,12 +52,12 @@ export class EditComponent implements OnInit {
       //TODO: complain if the file isn't a pdf
       console.log("file is not a pdf. Ignoring submit request.");
     } else {
-      console.log(this.description);
-      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.description);
+      console.log("description:" + this.textbookDescription);
+      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription);
       this.textbookTitle = '';
       this.textbookLink = '';
       this.textbookFile = null;
-      this.description = '';
+      this.textbookDescription = '';
     }
   }
 
