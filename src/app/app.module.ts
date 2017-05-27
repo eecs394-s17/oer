@@ -13,12 +13,15 @@ import { ViewComponent } from './view/view.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import 'firebase/storage';
 import { environment } from '../environments/environment';
 
 import { CourseService } from '../services/course.service';
+import { AuthService } from '../services/auth.service';
 
 import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
     LandingComponent,
     SearchComponent,
     EditComponent,
-    ViewComponent
+    ViewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -35,10 +39,11 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     AppRoutingModule,
     Ng2FilterPipeModule,
   ],
-  providers: [CourseService],
+  providers: [CourseService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
