@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CourseService } from '../../services/course.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 // const mockCourse = {
@@ -31,18 +32,35 @@ import { Router } from '@angular/router';
 export class YourCoursesComponent implements OnInit {
   courses = [];
   prof_id = 2273; // TODO: get prof_id based on login
-  prof_name = ""; // TODO: get prof_name based on login as well
+  prof_name = "Professor"; // TODO: get prof_name based on login as well
 
-  constructor(private courseService: CourseService, private userService: UserService, private router: Router) {}
+  constructor(
+    private courseService: CourseService, 
+    private userService: UserService, 
+    private auth: AuthService,
+    private router: Router
+    ) {
+  }
 
   ngOnInit() {
-    this.loadCourses();
+    var subscription = this.auth.user.subscribe(user => {
+      if (!user) {
+        console.log("Logged out.");
+        this.router.navigate(['/']);
+        subscription.unsubscribe();
+      } else {
+        this.loadCourses();
+        console.log(user.displayName);
+        this.prof_name = user.displayName;
+        console.log(user);
+      }
+    });
   }
 
   loadCourses() {
     this.userService.getUser(this.prof_id).subscribe(courses => {
       if (courses.length > 0) {
-        this.prof_name = courses[0]['instructor'];
+        // this.prof_name = courses[0]['instructor'];
         this.courses = courses;
       }
     });
