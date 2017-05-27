@@ -104,8 +104,6 @@ export class CourseService {
     textbookRef.once('value').then(function(snapshot) {
       var textbookId = snapshot.val();
       this.db.object('/textbooks/' + textbookId).update({'title': title});
-      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
-      this.db.list('/courses/' + this.course.id + '/textbooks/').push(textbookId);
     }.bind(this));
   }
 }
