@@ -27,6 +27,9 @@ export class SearchComponent implements OnInit {
     this.coursesQuery.subscribe(courses => {
       this.subjects = {};
       courses.forEach(function(course) {
+        var split_term = course.term.split(' ');
+        console.log(split_term[1].substring(0,1) + split_term[0].substring(2,4));
+        course.abbreviated_term = split_term[1].substring(0,1) + split_term[0].substring(2,4);
         if (course.subject in this.subjects) {
           this.subjects[course.subject].push(new Course(course));
         } else {
@@ -34,6 +37,7 @@ export class SearchComponent implements OnInit {
         }
       }, this);
       this.subjectKeys = Object.keys(this.subjects);
+      console.log(this.subjects);
     });
   }
 

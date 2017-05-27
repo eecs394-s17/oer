@@ -1,3 +1,20 @@
-.course {
+h5{
+	font-family: 'Lato',sans-serf;
+	padding-left: 5px;
+}
+.collection-item.course {
 	cursor: pointer;
+}
+.collection-item.course > p {
+	font-size: 0.8em;
+	color:#95a5a6;
+}
+.title{
+	color:#4E2A84;
+}
+
+.collection .collection-item.avatar .circle {
+	color:white;
+	padding:10px 7px;
+	background-color: #836EAA;
 }
