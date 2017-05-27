@@ -47,6 +47,7 @@ export class EditComponent implements OnInit {
   }
 
   onSubmitTextbook() {
+    console.log('new')
     if (this.textbookLink == '' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
       //TODO: complain if the file isn't a pdf
       console.log("file is not a pdf. Ignoring submit request.");
