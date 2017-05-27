@@ -1,5 +1,5 @@
 const path = require('path');
-module.exports = function(app, passport) {
+module.exports = function(app, passport, admin) {
   // For all GET requests, send back index.html
   // so that PathLocationStrategy can be used
   app.get('/*', function(req, res) {
@@ -22,11 +22,22 @@ module.exports = function(app, passport) {
   // });
 
   app.post('/login', passport.authenticate('ldapauth', {
-    // successRedirect: '/',
-    failureRedirect: '/bruh',
+    failureRedirect: '/',
     failureFlash: true
   }), function(req, res) {
+    var uid = req.user.uid;
 
-    res.send({status: 'ok'});
+    admin.auth().createCustomToken(uid)
+      .then(function(customToken) {
+        var user = {
+          displayName: req.user.displayName,
+          token: customToken
+        }
+        res.send(JSON.stringify(user));
+      })
+      .catch(function(error) {
+        console.log("Error creating custom token:", error);
+        res.send({status: 500})
+      });
   });
 };

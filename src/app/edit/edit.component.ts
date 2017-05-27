@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -9,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
-  providers: [UserService]
+  providers: [UserService, AuthService]
 })
 export class EditComponent implements OnInit {
   course: any;
@@ -23,7 +24,8 @@ export class EditComponent implements OnInit {
     public courseService: CourseService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private auth: AuthService,
   ) {
     this.course = this.courseService.getCourse();
     console.log(this.course);

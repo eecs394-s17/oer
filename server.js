@@ -8,6 +8,17 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
+// Firebase admin SDK
+var admin = require("firebase-admin");
+admin.initializeApp({
+  credential: admin.credential.cert({
+    projectId: "oer-f0dd1",
+    clientEmail: "firebase-adminsdk-qms01@oer-f0dd1.iam.gserviceaccount.com",
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
+  }),
+  databaseURL: "https://oer-f0dd1.firebaseio.com"
+});
+
 // Run the app by serving the static files
 // in the dist directory
 app.use(express.static(__dirname + '/dist'));
@@ -22,7 +33,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 require('./server/config/passport')(passport);
 
-require('./server/routes.js')(app, passport);
+require('./server/routes.js')(app, passport, admin);
 // Start the app by listening on the default
 // Heroku port
 app.listen(port);
