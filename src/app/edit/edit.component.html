@@ -30,7 +30,7 @@
 			<div class="row">
 				<div class="col s12 m6 right-border">
 					<label for="textbook-url">URL to Textbook</label>
-					<input type="url" id="textbook-url" [(ngModel)]="textbookLink" name="link" [disabled]="textbookFile != null">
+					<input type="url" pattern="@(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS" id="textbook-url" [(ngModel)]="textbookLink" name="link" [disabled]="textbookFile != null">
 				</div>
 				<div class="col s12 m6">
 					<label for="textbook-url">Textbook File</label><br>
