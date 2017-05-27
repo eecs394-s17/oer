@@ -37,6 +37,8 @@
 					<input type="file" (change)="textbookFileChange($event)" placeholder="Upload file..." [disabled]="textbookLink != ''">
 				</div>
 			</div>
+			<label for="description">Description of Textbook</label>
+			<textarea [(ngModel)]="description" name = "textbookDescription"></textarea>
 			<br>
 			<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookForm.form.valid && textbookLink == ''">Add Textbook</button>
 		</div>
