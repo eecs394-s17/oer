@@ -30,7 +30,7 @@ module.exports = function(app, passport, admin) {
     admin.auth().createCustomToken(uid)
       .then(function(customToken) {
         var user = {
-          displayName: req.user.displayName,
+          displayName: req.user.givenName,
           token: customToken
         }
         res.send(JSON.stringify(user));

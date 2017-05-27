@@ -32,7 +32,7 @@ import { Router } from '@angular/router';
 export class YourCoursesComponent implements OnInit {
   courses = [];
   prof_id = 2273; // TODO: get prof_id based on login
-  prof_name = ""; // TODO: get prof_name based on login as well
+  prof_name = "Professor"; // TODO: get prof_name based on login as well
 
   constructor(
     private courseService: CourseService, 
@@ -50,6 +50,7 @@ export class YourCoursesComponent implements OnInit {
         subscription.unsubscribe();
       } else {
         this.loadCourses();
+        console.log(user.displayName);
         this.prof_name = user.displayName;
         console.log(user);
       }

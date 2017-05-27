@@ -17,7 +17,10 @@ export class LoginComponent implements OnInit {
       username: '',
       password: ''
     }
-    var subscription = auth.user.subscribe(user => {
+  }
+
+  ngOnInit() {
+    var subscription = this.auth.user.subscribe(user => {
       if (user) {
         this.router.navigate(['/your-courses']);
         subscription.unsubscribe();
@@ -25,18 +28,18 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
   onSubmitLogin() {
-    this.http.post('/login', JSON.stringify(this.credentials),
-      {headers: new Headers({'Content-Type': 'application/json'})})
+    this.http.post(
+      '/login',
+      JSON.stringify(this.credentials),
+      {headers: new Headers({'Content-Type': 'application/json'})}
+    )
     .map(res => {
       this.error = res.headers.get('failure-flash');
       console.log(res);
       if (!this.error) {
         this.auth.login(res);
       }
-    }).subscribe();;
+    }).subscribe();
   }
 }
