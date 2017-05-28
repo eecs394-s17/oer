@@ -18,6 +18,7 @@ export class EditComponent implements OnInit {
   textbookFile: File = null;
   storageRef: any;
   editing: string = '';
+  textbookUpload: boolean = false;
 
   constructor(
     public courseService: CourseService,

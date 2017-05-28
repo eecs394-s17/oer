@@ -21,24 +21,42 @@
 	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">Looks like you have no textbooks yet</h6>
 	<h5>Add a new textbook</h5>
 	<form (ngSubmit)="onSubmitTextbook()" #textbookForm="ngForm">
-		<div class="form-group">
-			<label for="textbook-title">Textbook Title</label>
-			<input type="text" id="textbook-title" [(ngModel)]="textbookTitle" name="title" required>
-			<h6 class="center-align">Choose source of textbook (URL or file)</h6>
-			<div class="row">
-				<div class="col s12 m6 right-border">
-					<label for="textbook-url">URL to Textbook</label>
-					<input type="url" pattern="https?://.+" id="textbook-url" class="form-control" [(ngModel)]="textbookLink" name="link" #link="ngModel" [disabled]="textbookFile != null">
-					<div *ngIf="!link.valid && (link.dirty || link.touched)" class="chip red darken-3 white-text">
-						Invalid URL
-					</div>
-				</div>
-				<div class="col s12 m6">
-					<label for="textbook-url">Textbook File</label><br>
-					<input type="file" (change)="textbookFileChange($event)" placeholder="Upload file..." [disabled]="textbookLink != ''">
+		<div class="row">
+			<div class="input-field col s6">
+				<input type="text" id="textbook-title" [(ngModel)]="textbookTitle" name="title" required>
+				<label for="textbook-title">Textbook Title</label>
+			</div>
+		</div>
+		<div class="row" [formGroup]="textbookLinkChoices">
+			<div class="col s12 m3">
+				<input class="with-gap" name="group1" type="radio" id="test1" checked [(ngModel)]="textbookUpload" value="false" />
+		    <label for="test1">Enter URL to textbook</label>
+	    </div>
+	    <div class="col s12 m3">
+		    <input class="with-gap" name="group1" type="radio" id="test2" [(ngModel)]="textbookUpload" value="true" />
+		    <label for="test2">Upload the textbook</label>
+	    </div>
+    </div>
+		<div class="row">
+			<!-- <h6 class="center-align">Choose source of textbook (URL or file)</h6> -->
+			<div *ngIf="!textbookUpload" class="input-field col s12 m6 right-border">
+				<label for="textbook-url">URL to Textbook</label>
+				<input type="url" pattern="https?://.+" id="textbook-url" class="form-control" [(ngModel)]="textbookLink" name="link" #link="ngModel" [disabled]="textbookFile != null">
+				<div *ngIf="!link.valid && (link.dirty || link.touched)" class="chip red darken-3 white-text">
+					Invalid URL
 				</div>
 			</div>
-			<br>
+			<div *ngIf="textbookUpload" class="col s12 m6 file-field input-field">
+				<div class="btn">
+	        <span>Browse...</span>
+	        <input type="file" (change)="textbookFileChange($event)" placeholder="Upload file..." [disabled]="textbookLink != ''">
+	      </div>
+	      <div class="file-path-wrapper">
+        	<input class="file-path validate" type="text">
+      	</div>
+      </div>
+		</div>
+		<div class="row">
 			<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookForm.form.valid && (textbookLink == ''||textbookTitle == '')">Add Textbook</button>
 		</div>
 	</form>
