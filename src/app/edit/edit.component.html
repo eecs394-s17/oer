@@ -25,13 +25,12 @@
 			<label for="textbook-title">Textbook Title</label>
 			<input type="text" id="textbook-title" [(ngModel)]="textbookTitle" name="title" required>
 			<h6 class="center-align">Choose source of textbook (URL or file)</h6>
+			<span class="center-align"> {{ errorMessage }} </span>
 			<div class="row">
 				<div class="col s12 m6 right-border">
-					<label for="textbook-url">URL to Textbook</label>
+					<label *ngIf="link.valid" for="textbook-url">URL to Textbook</label>
+					<label *ngIf="!link.valid && (link.dirty || link.touched)" for="textbook-url" class="red-text">Invalid URL</label>
 					<input type="url" pattern="https?://.+" id="textbook-url" class="form-control" [(ngModel)]="textbookLink" name="link" #link="ngModel" [disabled]="textbookFile != null">
-					<div *ngIf="!link.valid && (link.dirty || link.touched)" class="chip red darken-3 white-text">
-						Invalid URL
-					</div>
 				</div>
 				<div class="col s12 m6">
 					<label for="textbook-url">Textbook File</label><br>
@@ -39,7 +38,7 @@
 				</div>
 			</div>
 			<br>
-			<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookForm.form.valid && (textbookLink == ''||textbookTitle == '')">Add Textbook</button>
+			<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookForm.form.valid || (textbookLink == '' && textbookTitle == '') ">Add Textbook</button>
 		</div>
 	</form>
 </div>

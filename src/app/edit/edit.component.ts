@@ -18,6 +18,7 @@ export class EditComponent implements OnInit {
   textbookFile: File = null;
   storageRef: any;
   editing: string = '';
+  errorMessage: string = '';
 
   constructor(
     public courseService: CourseService,
@@ -51,6 +52,7 @@ export class EditComponent implements OnInit {
     if (this.textbookLink == '' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
       //TODO: complain if the file isn't a pdf
       console.log("file is not a pdf. Ignoring submit request.");
+      this.errorMessage = 'Please upload a PDF';
     } else {
       this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile);
       this.textbookTitle = '';
