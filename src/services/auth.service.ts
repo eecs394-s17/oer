@@ -14,7 +14,6 @@ export class AuthService {
   }
 
   login(res) {
-    res = res.json();
     this.instructorId = res.instructorId;
     this.afAuth.auth.signInWithCustomToken(res.token).catch(function(error) {
       // Handle custom token sign-in errors

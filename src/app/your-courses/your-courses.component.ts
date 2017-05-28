@@ -42,13 +42,11 @@ export class YourCoursesComponent implements OnInit {
           this.loadCourses();
         }
         this.prof_name = user.displayName;
-        console.log(user);
       }
     });
   }
 
   loadCourses() {
-    console.log(this.auth.instructorId);
     this.userService.getUser(this.auth.instructorId).subscribe(courses => {
       if (courses.length > 0) {
         this.courses = courses;

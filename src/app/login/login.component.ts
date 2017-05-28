@@ -34,9 +34,12 @@ export class LoginComponent implements OnInit {
       {headers: new Headers({'Content-Type': 'application/json'})}
     )
     .map(res => {
-      // TODO Error checking isn't working anymore
-      this.error = res.headers.get('failure-flash');
-      console.log(res);
+      try {
+        res = res.json();
+        this.error = '';
+      } catch (e) {
+        this.error = "Error logging in, please try again."
+      }
       if (!this.error) {
         this.auth.login(res);
       }
