@@ -6,6 +6,7 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthService {
   user: Observable<firebase.User>;
+  instructorId: any;
 
   constructor(public afAuth: AngularFireAuth) {
     this.user = afAuth.authState;
@@ -13,15 +14,17 @@ export class AuthService {
 
   login(res) {
     res = res.json();
+    this.instructorId = res.instructorId;
     this.afAuth.auth.signInWithCustomToken(res.token).catch(function(error) {
       // Handle errors
       var errorMessage = error.message;
       console.log(errorMessage);
     });
+
     var subscription = this.user.subscribe(user => {
       if (user && !user.displayName) {
         console.log("Updating display name...");
-        user.updateProfile({displayName: res.displayName, photoURL: null});
+        user.updateProfile({displayName: res.givenName, photoURL: null});
         subscription.unsubscribe();
       }
     });
@@ -29,5 +32,9 @@ export class AuthService {
 
   logout() {
     this.afAuth.auth.signOut();
+  }
+
+  getInstructorId() {
+    return this.instructorId;
   }
 }

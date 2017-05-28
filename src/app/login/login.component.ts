@@ -7,7 +7,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [AuthService]
 })
 export class LoginComponent implements OnInit {
   credentials: any;
@@ -22,6 +21,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     var subscription = this.auth.user.subscribe(user => {
       if (user) {
+        console.log(this.auth.getInstructorId());
         this.router.navigate(['/your-courses']);
         subscription.unsubscribe();
       }
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
       {headers: new Headers({'Content-Type': 'application/json'})}
     )
     .map(res => {
+      // TODO Error checking isn't working anymore
       this.error = res.headers.get('failure-flash');
       console.log(res);
       if (!this.error) {

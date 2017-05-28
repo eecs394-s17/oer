@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
 })
 export class YourCoursesComponent implements OnInit {
   courses = [];
-  prof_id = 2273; // TODO: get prof_id based on login
+  prof_id = ''; // TODO: get prof_id based on login
   prof_name = "Professor"; // TODO: get prof_name based on login as well
 
   constructor(
@@ -46,9 +46,10 @@ export class YourCoursesComponent implements OnInit {
     var subscription = this.auth.user.subscribe(user => {
       if (!user) {
         console.log("Logged out.");
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
         subscription.unsubscribe();
       } else {
+        console.log(this.auth.getInstructorId());
         this.loadCourses();
         console.log(user.displayName);
         this.prof_name = user.displayName;
@@ -58,7 +59,8 @@ export class YourCoursesComponent implements OnInit {
   }
 
   loadCourses() {
-    this.userService.getUser(this.prof_id).subscribe(courses => {
+    console.log(this.auth.getInstructorId());
+    this.userService.getUser(this.auth.getInstructorId()).subscribe(courses => {
       if (courses.length > 0) {
         // this.prof_name = courses[0]['instructor'];
         this.courses = courses;
