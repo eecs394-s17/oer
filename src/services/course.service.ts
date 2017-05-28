@@ -61,7 +61,12 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
+    var textbookRef = this.firebaseApp.database().ref('/courses/' + this.course.id + '/textbooks/' + key);
+    textbookRef.once('value').then(function(snapshot) {
+      var textbookId = snapshot.val();
+      this.db.object('/textbooks/' + textbookId).remove();
+      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
+    }.bind(this));
   }
 
   addTextbook(title: string, link: string, file: File, description: string) {
@@ -104,8 +109,6 @@ export class CourseService {
     textbookRef.once('value').then(function(snapshot) {
       var textbookId = snapshot.val();
       this.db.object('/textbooks/' + textbookId).update({'title': title});
-      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
-      this.db.list('/courses/' + this.course.id + '/textbooks/').push(textbookId);
     }.bind(this));
   }
 }
