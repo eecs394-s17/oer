@@ -1,5 +1,6 @@
 <div class="container">
-	<h3>Hello, {{prof_name}}!</h3>
+	<h3 *ngIf="prof_name">Welcome back, {{prof_name}}!</h3>
+	<p>Choose a course below to add/edit textbooks.</p>
 	<h5>Your Courses</h5>
 	<div class="collection">
 		<a *ngFor="let course of courses"  

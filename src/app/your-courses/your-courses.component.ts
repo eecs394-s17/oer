@@ -3,25 +3,7 @@ import { UserService } from '../../services/user.service';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-
-// const mockCourse = {
-//   "id": 78818,
-//   "title": "Music and Mind",
-//   "term": "2010 Fall",
-//   "instructor": "Richard D Ashley",
-//   "subject": "MUS_THRY",
-//   "catalog_num": "251-0",
-//   "section": "20",
-//   "room": "Music Administration Building 229",
-//   "meeting_days": "MoWeFr",
-//   "start_time": "09:00",
-//   "end_time": "09:50",
-//   "seats": 20,
-//   "topic": null,
-//   "component": "LEC",
-//   "class_num": 16834,
-//   "course_id": 19151
-// };
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'app-your-courses',
@@ -31,14 +13,14 @@ import { Router } from '@angular/router';
 })
 export class YourCoursesComponent implements OnInit {
   courses = [];
-  prof_id = ''; // TODO: get prof_id based on login
-  prof_name = "Professor"; // TODO: get prof_name based on login as well
+  prof_name = ''; // TODO: get prof_name based on login as well
 
   constructor(
     private courseService: CourseService, 
     private userService: UserService, 
-    private auth: AuthService,
-    private router: Router
+    public auth: AuthService,
+    private router: Router,
+    private db: AngularFireDatabase
     ) {
   }
 
@@ -49,9 +31,16 @@ export class YourCoursesComponent implements OnInit {
         this.router.navigate(['/login']);
         subscription.unsubscribe();
       } else {
-        console.log(this.auth.getInstructorId());
-        this.loadCourses();
-        console.log(user.displayName);
+        if (!this.auth.instructorId) {
+          var instructorSub = this.db.object('/instructors/' + user.uid + '/instructorId', 
+            {preserveSnapshot: true}).subscribe(snapshot => {
+              this.auth.instructorId = snapshot.val();
+              this.loadCourses();
+              instructorSub.unsubscribe();
+            });
+        } else {
+          this.loadCourses();
+        }
         this.prof_name = user.displayName;
         console.log(user);
       }
@@ -59,10 +48,9 @@ export class YourCoursesComponent implements OnInit {
   }
 
   loadCourses() {
-    console.log(this.auth.getInstructorId());
-    this.userService.getUser(this.auth.getInstructorId()).subscribe(courses => {
+    console.log(this.auth.instructorId);
+    this.userService.getUser(this.auth.instructorId).subscribe(courses => {
       if (courses.length > 0) {
-        // this.prof_name = courses[0]['instructor'];
         this.courses = courses;
       }
     });

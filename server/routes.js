@@ -34,6 +34,7 @@ module.exports = function(app, passport, admin, nameId, nameSubjects) {
 
     if (isProf || isAd) {
       if (isAd) {
+        console.log("Logged in as admin")
         additionalClaims.admin = true;
       }
       admin.auth().createCustomToken(uid, additionalClaims)
@@ -61,5 +62,6 @@ function isProfessor(user) {
 }
 
 function isAdmin(user) {
-  return user.uid == 'csc404' || user.uid == 'sss517';
+  admins = process.env.ADMINS.split(',');
+  return admins.includes(user.uid);
 }

@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     var subscription = this.auth.user.subscribe(user => {
       if (user) {
-        console.log(this.auth.getInstructorId());
         this.router.navigate(['/your-courses']);
         subscription.unsubscribe();
       }
