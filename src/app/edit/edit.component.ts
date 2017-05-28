@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
-  providers: [UserService, AuthService]
+  providers: [UserService]
 })
 export class EditComponent implements OnInit {
   course: any;

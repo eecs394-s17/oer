@@ -7,7 +7,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [AuthService]
 })
 export class LoginComponent implements OnInit {
   credentials: any;
@@ -35,8 +34,12 @@ export class LoginComponent implements OnInit {
       {headers: new Headers({'Content-Type': 'application/json'})}
     )
     .map(res => {
-      this.error = res.headers.get('failure-flash');
-      console.log(res);
+      try {
+        res = res.json();
+        this.error = '';
+      } catch (e) {
+        this.error = "Error logging in, please try again."
+      }
       if (!this.error) {
         this.auth.login(res);
       }
