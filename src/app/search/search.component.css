@@ -2,6 +2,13 @@ h5{
 	font-family: 'Lato',sans-serf;
 	padding-left: 5px;
 }
+hr {
+	margin-top: 15px;
+	border-bottom:0px solid #95a5a6;
+}
+input {
+	font-size: 1.5rem;
+}
 .collection-item.course {
 	cursor: pointer;
 }
@@ -15,7 +22,7 @@ h5{
 
 .collection .collection-item.avatar .circle {
 	color:white;
-	padding:10px 7px;
+	padding:10px 8px;
 	background-color: #836EAA;
 }
 
