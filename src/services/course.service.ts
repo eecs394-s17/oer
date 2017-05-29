@@ -30,7 +30,10 @@ export class CourseService {
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
 
-  constructor(@Inject(FirebaseApp) public firebaseApp: any, private db: AngularFireDatabase) {
+  constructor(
+    @Inject(FirebaseApp) public firebaseApp: any,
+    private db: AngularFireDatabase,
+  ) {
     this.storageRef = firebaseApp.storage().ref();
   }
 
@@ -98,7 +101,6 @@ export class CourseService {
       'subject': this.course.subject,
       'catalog_num': this.course.catalog_num,
       'topic': this.course.topic,
-
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }

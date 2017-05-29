@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
@@ -36,16 +35,24 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.course.title == '') {
-      console.log("Calling API to get course data...");
-      this.route.params
-        .switchMap((params) => this.userService.getCourse(params['id']))
-        .subscribe((course) => {
-          this.courseService.assignCourse(course[0]);
-          this.course = this.courseService.getCourse();
-          console.log(this.course);
-        });
-    }
+    var subscription = this.auth.user.subscribe(user => {
+      if (!user) {
+        console.log("Logged out.");
+        this.router.navigate(['/login']);
+        subscription.unsubscribe();
+      } else {
+        if (this.course.title == '') {
+          console.log("Calling API to get course data...");
+          this.route.params
+            .switchMap((params) => this.userService.getCourse(params['id']))
+            .subscribe((course) => {
+              this.courseService.assignCourse(course[0]);
+              this.course = this.courseService.getCourse();
+              console.log(this.course);
+            });
+        }
+      }
+    });
   }
 
   removeTextbook(id) {
@@ -54,7 +61,7 @@ export class EditComponent implements OnInit {
 
   onSubmitTextbook() {
     if (this.textbookLinkChoices == 'uploadTextbook' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
-      //TODO: complain if the file isn't a pdf
+      //TODO: Form validation - complain if file isn't a PDF.
       console.log("file is not a pdf. Ignoring submit request.");
     } else {
       console.log("description:" + this.textbookDescription);

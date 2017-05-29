@@ -7,7 +7,7 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 @Injectable()
 export class AuthService {
   user: Observable<firebase.User>;
-  instructorId: any;
+  instructorId: number;
 
   constructor(public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
     this.user = afAuth.authState;
