@@ -1,13 +1,20 @@
 <div class="container">
 	<h3>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h3>
 	<h5>Course Textbooks</h5>
-	<div *ngIf="courseService.textbooks.length" class="collection">
-		<a *ngFor="let textbook of courseService.textbooks"
-		   class="collection-item textbook"
-		   href="{{textbook.link}}"
-		   title = "{{textbook.description}}">
-		   {{ textbook.title }}
-		</a>
+	<div *ngIf="courseService.textbooks.length">
+		<div class="row" *ngFor="let textbook of courseService.textbooks">
+			<div class="col s12 m6">
+				<div class="card deep-purple">
+          <div class="card-content white-text">
+            <span class="card-title">{{textbook.title}}</span>
+            <p>{{textbook.description}}</p>
+          </div>
+          <div class="card-action">
+            <a href="{{textbook.link}}">Get this textbook!</a>
+          </div>
+        </div>
+			</div>
+		</div>
 	</div>
 	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">
 		Looks like there are no textbooks added for this course yet.
