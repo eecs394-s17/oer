@@ -54,9 +54,12 @@
 			</div>
 		</div>
 		<div class="row">
-			<label for="description">Description of Textbook</label>
-			<textarea [(ngModel)]="textbookDescription" name = "description"></textarea>
-			<br>
+			<div class="input-field col s12">
+				<label for="description">Description of Textbook</label>
+				<textarea [(ngModel)]="textbookDescription" class="materialize-textarea" name="description"></textarea>
+			</div>
+		</div>
+		<div class="row">
 			<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookForm.form.valid || (textbookLink == '' && textbookTitle == '')">Add Textbook</button>
 		</div>
 	</form>
