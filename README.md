@@ -7,20 +7,20 @@
 | Northwestern Course Data | http://developer.asg.northwestern.edu/docs/ |
 
 Once you have recieved an API key:
-* Enter the [management console](https://api.asg.northwestern.edu/manage/login)
+* Enter the [management console](https://api.asg.northwestern.edu/manage/login).
 * Allow referers depending on the domain(s) from which you will be making request.
 * (Add `*` to allow all domains)
 
 | Credentials | Details |
 | ------ | ------ |
-| Firebase | Database |
+| Firebase | Admin SDK Privileges |
 | LDAP | Authentication |
 
-All the credendial required are in the `.env` file that you must recieve outside of Github.
+You should include all required credentials/private keys and environment variables in a `.env` file stored in the root directory of the project. Contact Chris Chen at ChristopherChen2018@u.northwestern.edu to acquire the credentials.
 
 ### Required Tools
 #### Node.js and npm
-Download the most recent version of [Node.js](https://nodejs.org/en/) which should include the [Node Package Manager](https://www.npmjs.com/) (npm) and verify them.
+Download the most recent version of [Node.js](https://nodejs.org/en/), which should include the [Node Package Manager](https://www.npmjs.com/) (npm), and verify them.
 ```sh
 node -v
 npm -v
@@ -39,12 +39,12 @@ heroku --version
 heroku login
 ```
 ## Running the App Locally
-Clone the github repo.
+Clone the GitHub repository.
 ```
 git clone https://github.com/eecs394-s17/oer.git
 cd oer
 ```
-Install the dependancies.
+Install the dependencies.
 ```
 npm install
 ```
@@ -68,7 +68,6 @@ ng build && heroku local
 None, #PerfectCode #InfiniteVelocity
 
 ## Running unit tests
-
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
