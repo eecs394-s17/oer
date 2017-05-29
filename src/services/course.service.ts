@@ -61,12 +61,17 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
+    var textbookRef = this.firebaseApp.database().ref('/courses/' + this.course.id + '/textbooks/' + key);
+    textbookRef.once('value').then(function(snapshot) {
+      var textbookId = snapshot.val();
+      this.db.object('/textbooks/' + textbookId).remove();
+      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
+    }.bind(this));
   }
 
-  addTextbook(title: string, link: string, file: File) {
+  addTextbook(title: string, link: string, file: File, description: string) {
     if (link != '') {
-      this.updateDbNewTextbook(title, link);
+      this.updateDbNewTextbook(title, link, description);
     } else {  //upload the file
       var fileRef = this.storageRef.child(file.name)
       fileRef.put(file).then(function(snapshot) {
@@ -74,16 +79,17 @@ export class CourseService {
         fileRef.getDownloadURL().then(function(path) {
           link = path;
           console.log(link);
-          this.updateDbNewTextbook(title, link);
+          this.updateDbNewTextbook(title, link, description);
         }.bind(this));
       }.bind(this));
     }
   }
 
-  private updateDbNewTextbook(title: string, path: string) {
+  private updateDbNewTextbook(title: string, path: string, description: string) {
     var textbook = this.db.list('/textbooks/').push({
       'title': title,
-      'link': path
+      'link': path,
+      'description': description
     });
     this.db.object('/courses/' + this.course.id).update({
       'title': this.course.title,
@@ -92,6 +98,7 @@ export class CourseService {
       'subject': this.course.subject,
       'catalog_num': this.course.catalog_num,
       'topic': this.course.topic,
+
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
@@ -102,8 +109,6 @@ export class CourseService {
     textbookRef.once('value').then(function(snapshot) {
       var textbookId = snapshot.val();
       this.db.object('/textbooks/' + textbookId).update({'title': title});
-      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
-      this.db.list('/courses/' + this.course.id + '/textbooks/').push(textbookId);
     }.bind(this));
   }
 }

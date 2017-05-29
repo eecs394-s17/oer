@@ -4,7 +4,8 @@
 	<div *ngIf="courseService.textbooks.length" class="collection">
 		<a *ngFor="let textbook of courseService.textbooks"
 		   class="collection-item textbook"
-		   href="{{textbook.link}}">
+		   href="{{textbook.link}}"
+		   title = "{{textbook.description}}">
 		   {{ textbook.title }}
 		</a>
 	</div>

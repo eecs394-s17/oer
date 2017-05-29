@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -15,6 +16,7 @@ export class EditComponent implements OnInit {
   course: any;
   textbookTitle: string = '';
   textbookLink: string = '';
+  textbookDescription: string = '';
   textbookFile: File = null;
   storageRef: any;
   editing: string = '';
@@ -25,7 +27,8 @@ export class EditComponent implements OnInit {
     public courseService: CourseService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private auth: AuthService,
   ) {
     this.course = this.courseService.getCourse();
     console.log(this.course);
@@ -54,10 +57,12 @@ export class EditComponent implements OnInit {
       //TODO: complain if the file isn't a pdf
       console.log("file is not a pdf. Ignoring submit request.");
     } else {
-      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile);
+      console.log("description:" + this.textbookDescription);
+      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription);
       this.textbookTitle = '';
       this.textbookLink = '';
       this.textbookFile = null;
+      this.textbookDescription = '';
     }
   }
 

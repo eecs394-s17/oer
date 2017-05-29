@@ -9,14 +9,13 @@
 				<a (click)="editing = textbook.key" class="clear-textbook secondary-content"><i class="material-icons">mode_edit</i></a>
 				<a (click)="removeTextbook(textbook.key)" class="clear-textbook secondary-content red-text"><i class="material-icons">clear</i></a>
 			</div>
-
 			<div *ngIf="editing==textbook.key">
 				<form (ngSubmit)="onSubmitEditTextbook(textbook.title)" #textbookEditForm="ngForm">
 					<input type="text" [(ngModel)]="textbook.title" name="title" required>
 					<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookEditForm.form.valid">Save</button>
 				</form>
 			</div>
-		</li>	
+		</li>
 	</ul>
 	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">Looks like you have no textbooks yet</h6>
 
@@ -55,6 +54,9 @@
 			</div>
 		</div>
 		<div class="row">
+			<label for="description">Description of Textbook</label>
+			<textarea [(ngModel)]="textbookDescription" name = "description"></textarea>
+			<br>
 			<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookForm.form.valid || (textbookLink == '' && textbookTitle == '')">Add Textbook</button>
 		</div>
 	</form>
