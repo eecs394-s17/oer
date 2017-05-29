@@ -18,8 +18,11 @@ export class EditComponent implements OnInit {
   textbookLink: string = '';
   textbookDescription: string = '';
   textbookFile: File = null;
+  textbookFilePath: any = '';
   storageRef: any;
   editing: string = '';
+  textbookUpload: boolean = false;
+  textbookLinkChoices: string = '';
 
   constructor(
     public courseService: CourseService,
@@ -50,15 +53,16 @@ export class EditComponent implements OnInit {
   }
 
   onSubmitTextbook() {
-    if (this.textbookLink == '' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
+    if (this.textbookLinkChoices == 'uploadTextbook' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
       //TODO: complain if the file isn't a pdf
       console.log("file is not a pdf. Ignoring submit request.");
     } else {
       console.log("description:" + this.textbookDescription);
-      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription);
+      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription, this.textbookLinkChoices);
       this.textbookTitle = '';
       this.textbookLink = '';
       this.textbookFile = null;
+      this.textbookFilePath = '';
       this.textbookDescription = '';
     }
   }
