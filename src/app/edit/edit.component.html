@@ -3,7 +3,6 @@
 	<h5>Textbooks you've added to this course already</h5>
 	<ul class="collection">
 		<li *ngFor="let textbook of courseService.textbooks" class="collection-item">
-
 			<div *ngIf="editing!=textbook.key">
 				<a href="{{textbook.link}}">{{ textbook.title }}</a>
 				<a (click)="editing = textbook.key" class="clear-textbook secondary-content"><i class="material-icons">mode_edit</i></a>
@@ -17,10 +16,8 @@
 			</div>
 		</li>
 	</ul>
-	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">Looks like you have no textbooks yet</h6>
-
-	<h5>Add a new textbook</h5>
-
+	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">Looks like you haven't added any textbooks for this course yet.</h6>
+	<h5>Add New Textbook</h5>
 	<form (ngSubmit)="onSubmitTextbook()" #textbookForm="ngForm">
 		<div class="row">
 			<div class="input-field col s6">
@@ -41,16 +38,18 @@
 		<div class="row" [ngSwitch]="textbookLinkChoices">
 			<div class="input-field col s12 m6" *ngSwitchCase="'url'">
 				<label for="textbook-url" data-error="wrong" data-success="right">URL to Textbook</label>
-				<input type="url" pattern="https?://.+" id="textbook-url" class="validate" [(ngModel)]="textbookLink" name="link" #link="ngModel" [disabled]="textbookFile != null">
+				<input type="url" pattern="https?://.+" id="textbook-url" class="validate" [(ngModel)]="textbookLink" name="link" #link="ngModel">
+				<p><em>Please include "http://" or "https://" at the front of the link.</em></p>
 			</div>
 			<div class="col s12 m6 file-field input-field" *ngSwitchCase="'uploadTextbook'">
 				<div class="btn" >
 					<span>Browse...</span>
-					<input type="file" (change)="textbookFileChange($event)" placeholder="Upload file..." [disabled]="textbookLink != ''">
+					<input type="file" (change)="textbookFileChange($event)" placeholder="Upload file...">
 				</div>
 				<div class="file-path-wrapper">
-					<input class="file-path validate" type="text">
+					<input class="file-path validate" type="text" name="textbookFilePath" [(ngModel)]="textbookFilePath">
 				</div>
+				<p><em>Only PDF uploads are supported.</em></p>
 			</div>
 		</div>
 		<div class="row">

@@ -69,11 +69,11 @@ export class CourseService {
     }.bind(this));
   }
 
-  addTextbook(title: string, link: string, file: File, description: string) {
-    if (link != '') {
+  addTextbook(title: string, link: string, file: File, description: string, uploadChoice: string) {
+    if (uploadChoice == 'url') {
       this.updateDbNewTextbook(title, link, description);
     } else {  //upload the file
-      var fileRef = this.storageRef.child(file.name)
+      var fileRef = this.storageRef.child(this.course.id + '_' + file.name)
       fileRef.put(file).then(function(snapshot) {
         console.log('Uploaded textbook!');
         fileRef.getDownloadURL().then(function(path) {
