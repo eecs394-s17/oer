@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const request = require('request');
+const TERM = 4660;
 module.exports = function(app, passport, admin) {
   var nameId;
   fs.readFile('./name-id.json', 'utf8', function(err, data) {
@@ -15,24 +16,34 @@ module.exports = function(app, passport, admin) {
   // });
 
   app.get('/get-courses', function(req, res) {
-    var params = {
-      key: process.env.COURSE_API_KEY
-    }
+    var callback = function(err, response, body) {
+      if (err) { console.log(err); res.send({status: 500}); }
+      res.send(body);
+    };
 
     if (req.query.id) {
-      params.id = req.query.id;
+      getCourseById(req.query.id, callback);
     } else {
-      params.term = req.query.term;
-      params.instructor = req.query.instructor;
+      getCoursesByInstructorId(req.query.term, req.query.instructor, callback);
     }
-    
-    console.log("Getting courses");
-    console.log(params);
-    request({url: 'https://api.asg.northwestern.edu/courses', qs: params}, function(err, response, body) {
-      if (err) { console.log(err); res.send({status: 500}); }
-      res.send(response.body);
-    })
   });
+
+  function getCoursesByInstructorId(term, instructorId, callback) {
+    var params = {
+      'key': process.env.COURSE_API_KEY,
+      'term': term,
+      'instructor': instructorId
+    };
+    request({url: 'https://api.asg.northwestern.edu/courses', qs: params}, callback);
+  }
+
+  function getCourseById(id, callback) {
+    var params = {
+      'key': process.env.COURSE_API_KEY,
+      'id': id
+    };
+    request({url: 'https://api.asg.northwestern.edu/courses', qs: params}, callback);
+  }
 
   // For all GET requests, send back index.html
   // so that PathLocationStrategy can be used
@@ -61,12 +72,29 @@ module.exports = function(app, passport, admin) {
       console.log("Generating token");
       admin.auth().createCustomToken(uid, additionalClaims)
       .then(function(customToken) {
-        if (isProf || isAd) {
-          console.log("Updating instructor ID in database");
+        if (isProf) {
+          console.log("Updating instructor in database");
+          var instructorId = 6215 //nameId[req.user.displayName];
           admin.database().ref('instructors/' + uid).update({
-            "instructorId": 6215 //nameId[req.user.displayName]
+            "name": req.user.displayName,
+            "instructorId": instructorId
           });
-        } //6215
+
+          getCoursesByInstructorId(TERM, instructorId, function (err, response, body) {
+            if (err) { console.log(err); res.send({status: 500}); }
+            var instructorCourses = {};
+            courses = JSON.parse(body);
+            for (let i = 0; i < courses.length; i++) {
+              instructorCourses[courses[i].id] = true;
+            }
+            admin.database().ref('instructors/' + uid + '/courses').update(instructorCourses);
+          });
+        } else {
+          admin.database().ref('admins/' + uid).update({
+            "name": req.user.displayName,
+          });
+        }
+
         var user = {
           givenName: req.user.givenName,
           token: customToken
@@ -85,6 +113,7 @@ module.exports = function(app, passport, admin) {
 
 function isProfessor(user, nameId) {
   return user.title && 
+    user.mail.indexOf('@northwestern.edu') != 1 &&
     (user.title.indexOf('Professor') != -1 || user.title.indexOf('Lecturer') != -1) &&
     user.displayName in nameId;
 }

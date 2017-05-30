@@ -37,7 +37,6 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     var subscription = this.auth.user.subscribe(user => {
       if (!user) {
-        console.log("Logged out.");
         this.router.navigate(['/login']);
         subscription.unsubscribe();
       } else {
