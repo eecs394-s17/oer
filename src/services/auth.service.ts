@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   login(res) {
-    this.instructorId = res.instructorId;
+    // this.instructorId = res.instructorId;
     this.afAuth.auth.signInWithCustomToken(res.token).catch(function(error) {
       // Handle custom token sign-in errors
       var errorMessage = error.message;
@@ -23,7 +23,7 @@ export class AuthService {
 
     var subscription = this.user.subscribe(user => {
       if (user) {
-        this.db.object('/instructors/' + user.uid).update({instructorId: res.instructorId});
+        // this.db.object('/instructors/' + user.uid).update({instructorId: res.instructorId});
         if (!user.displayName) {
           console.log("Adding a display name...");
           user.updateProfile({displayName: res.givenName, photoURL: null});
