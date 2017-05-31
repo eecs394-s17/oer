@@ -41,6 +41,8 @@ export class LoginComponent implements OnInit {
         this.error = "Error logging in, please try again."
       }
       if (!this.error) {
+        console.log("no error in response");
+        console.log(res);
         this.auth.login(res);
       }
     }).subscribe();

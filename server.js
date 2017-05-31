@@ -18,7 +18,10 @@ admin.initializeApp({
     clientEmail: "firebase-adminsdk-qms01@oer-f0dd1.iam.gserviceaccount.com",
     privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
   }),
-  databaseURL: "https://oer-f0dd1.firebaseio.com"
+  databaseURL: "https://oer-f0dd1.firebaseio.com",
+  databaseAuthVariableOverride: {
+    uid: "server"
+  }
 });
 
 // Run the app by serving the static files
@@ -35,19 +38,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 require('./server/config/passport')(passport);
 
-var nameId;
-fs.readFile('./name-id.json', 'utf8', function(err, data) {
-  if (err) throw err;
-  nameId = JSON.parse(data);
-});
-
-var nameSubjects;
-fs.readFile('./name-subjects.json', 'utf8', function(err, data) {
-  if (err) throw err;
-  nameSubjects = JSON.parse(data);
-});
-
-require('./server/routes.js')(app, passport, admin, nameId, nameSubjects);
+require('./server/routes.js')(app, passport, admin);
 // Start the app by listening on the default
 // Heroku port
 app.listen(port);

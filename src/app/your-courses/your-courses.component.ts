@@ -14,6 +14,9 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 export class YourCoursesComponent implements OnInit {
   courses = [];
   prof_name = ''; // TODO: get prof_name based on login as well
+  adminView = false;
+  allProfs: FirebaseListObservable<any>;
+  customProfId: any;
 
   constructor(
     private courseService: CourseService, 
@@ -27,35 +30,55 @@ export class YourCoursesComponent implements OnInit {
   ngOnInit() {
     var subscription = this.auth.user.subscribe(user => {
       if (!user) {
-        console.log("Logged out.");
         this.router.navigate(['/login']);
         subscription.unsubscribe();
       } else {
-        if (!this.auth.instructorId) {
-          var instructorSub = this.db.object('/instructors/' + user.uid + '/instructorId', 
-            {preserveSnapshot: true}).subscribe(snapshot => {
-              this.auth.instructorId = snapshot.val();
-              this.loadCourses();
-              instructorSub.unsubscribe();
-            });
-        } else {
-          this.loadCourses();
-        }
-        this.prof_name = user.displayName;
+        var instructorSub = this.db.object('/instructors/' + user.uid + '/instructorId').subscribe(idObj => {
+            if (idObj.$exists()) {
+              this.loadCourses(idObj.$value, user.displayName);
+            } else {
+              var adminSub = this.db.object('/admins/' + user.uid).subscribe(adminObj => {
+                if (adminObj.$exists()) {
+                  this.adminView = true;
+                  this.allProfs = this.db.list('/instructors/', {
+                    query: {
+                      orderByChild: 'name'
+                    }
+                  });
+                } else {
+                  this.adminView = false;
+                }
+                adminSub.unsubscribe();
+              });
+            }
+            instructorSub.unsubscribe();
+          });
       }
     });
   }
 
-  loadCourses() {
-    this.userService.getUser(this.auth.instructorId).subscribe(courses => {
-      if (courses.length > 0) {
-        this.courses = courses;
-      }
-    });
+  loadCourses(instructorId, name) {
+    if (instructorId) {
+      this.adminView = false;
+      var subscription = this.userService.getUser(instructorId).subscribe(courses => {
+        console.log(courses);
+        if (courses.length > 0) {
+          this.prof_name = courses[0].instructor.split(' ')[0];
+          this.courses = courses;
+        }
+        subscription.unsubscribe();
+      });
+    } else {
+      console.log("No instructor ID provided");
+    }
   }
 
   sendCourse(course) {
     this.courseService.assignCourse(course);
     this.router.navigate(['/your-courses/edit', course.id]);
+  }
+
+  onSubmitCustomProfId() {
+    this.loadCourses(this.customProfId, this.prof_name);
   }
 }
