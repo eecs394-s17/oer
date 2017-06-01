@@ -26,7 +26,8 @@ import { Course } from '../classes/course';
 @Injectable()
 export class CourseService {
 	private course: Course = new Course();
-  public textbooks: any[] = [];
+  // public textbooks: any[] = [];
+  public textbooks: FirebaseListObservable<any>;
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
 
@@ -39,24 +40,25 @@ export class CourseService {
 
   assignCourse(course: any) {
     this.course.setCourse(course);
-    this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
-    this.textbookIDs.subscribe(ids => {
-      console.log("Textbook IDs retrieved...");
-      console.log(ids);
-      this.textbooks = [];
-      if (ids.length > 0) {
-        ids.forEach(function(id) {
-          var subscription = this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
-            var textbook = snapshot.val();
-            textbook['key'] = id.$key;  // Hold onto key mapping to textbook id in course object
-            this.textbooks.push(textbook);
-            subscription.unsubscribe();
-          });
-        }, this);
-      } else {
-        console.log("No entry in database");
-      }
-    });
+    this.textbooks = this.db.list('/textbooks/' + this.course.id);
+    // this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
+    // this.textbookIDs.subscribe(ids => {
+    //   console.log("Textbook IDs retrieved...");
+    //   console.log(ids);
+    //   this.textbooks = [];
+    //   if (ids.length > 0) {
+    //     ids.forEach(function(id) {
+    //       var subscription = this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
+    //         var textbook = snapshot.val();
+    //         textbook['key'] = id.$key;  // Hold onto key mapping to textbook id in course object
+    //         this.textbooks.push(textbook);
+    //         subscription.unsubscribe();
+    //       });
+    //     }, this);
+    //   } else {
+    //     console.log("No entry in database");
+    //   }
+    // });
   }
 
   getCourse() {
@@ -64,12 +66,7 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    var textbookRef = this.firebaseApp.database().ref('/courses/' + this.course.id + '/textbooks/' + key);
-    textbookRef.once('value').then(function(snapshot) {
-      var textbookId = snapshot.val();
-      this.db.object('/textbooks/' + textbookId).remove();
-      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
-    }.bind(this));
+    this.db.object('/textbooks/' + this.course.id + '/' + key).remove();
   }
 
   addTextbook(title: string, link: string, file: File, description: string, uploadChoice: string) {
@@ -89,7 +86,7 @@ export class CourseService {
   }
 
   private updateDbNewTextbook(title: string, path: string, description: string) {
-    var textbook = this.db.list('/textbooks/').push({
+    this.db.list('/textbooks/' + this.course.id).push({
       'title': title,
       'link': path,
       'description': description
@@ -102,15 +99,9 @@ export class CourseService {
       'catalog_num': this.course.catalog_num,
       'topic': this.course.topic,
     });
-    this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
 
   editTextbook(key: string, title: string) {
-    console.log(key);
-    var textbookRef = this.firebaseApp.database().ref('/courses/' + this.course.id + '/textbooks/' + key);
-    textbookRef.once('value').then(function(snapshot) {
-      var textbookId = snapshot.val();
-      this.db.object('/textbooks/' + textbookId).update({'title': title});
-    }.bind(this));
+    this.db.object('/textbooks/' + this.course.id + '/' + key).update({'title': title});
   }
 }

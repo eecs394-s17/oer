@@ -27,15 +27,22 @@ export class SearchComponent implements OnInit {
     this.coursesQuery.subscribe(courses => {
       this.subjects = {};
       courses.forEach(function(course) {
-        if (course.textbooks) {
-          if (course.subject in this.subjects) {
-            this.subjects[course.subject].push(new Course(course));
-          } else {
-            this.subjects[course.subject] = [new Course(course)];
-          }
-        }
+        var subscription = db.object('/textbooks/' + course.$key).subscribe(books => {
+          if (books.$exists()) {
+            if (course.subject in this.subjects) {
+              this.subjects[course.subject].push(new Course(course));
+            } else {
+              this.subjects[course.subject] = [new Course(course)];
+            }
+            this.subjectKeys = Object.keys(this.subjects);
+          } 
+          //else if (course.subject in this.subjects) {
+            // delete this.subjects[course.subject];
+          // }
+
+          // subscription.unsubscribe();
+        });
       }, this);
-      this.subjectKeys = Object.keys(this.subjects);
     });
   }
 
