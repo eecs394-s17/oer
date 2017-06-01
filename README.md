@@ -67,12 +67,13 @@ Each time you make changes to the code:
 ng build && heroku local
 ```
 ## Known Bugs / TODO
-* You can add a textbook without adding a url
-* Removing all textbooks from a course does not update in real time
-* User/e2e/automated testing needs to be implemented
-* The application only handles term the current (Spring 2017)
-* The styling needs to be updated
-* A host on a Northwestern server needs to be found
+* Need to user test and create e2e/unit tests.
+* The application only shows and allows for managing courses from the most recent term (Spring 2017).
+* You can add a textbook without adding a URL (form validation issue).
+* Removing all textbooks from a course does not remove the course from the browse list in real time.
+* More informative login errors not showing correctly (appears to be server-side issue with connect-flash).
+* Styling should be updated on the Professor login side.
+* Site needs to be hosted on a Northwestern server.
 
 ## Running unit tests
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
