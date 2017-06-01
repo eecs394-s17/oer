@@ -1,4 +1,19 @@
+.header {
+	height:210px;
+	background: url('/assets/img/header.jpg') center / cover;
+}
+.header-foreground{
+	padding-top: 50px;
+	height:100%;
+	background: rgba(0,0,0,0.85);
+}
+.title{
+	font-size: 3.6em;
+	margin-top: 0px;
+	color: white;
+}
 .subtitle{
+	font-size:1.4em;
 	color:#836EAA;
 	margin-bottom: 30px;
 }
@@ -12,5 +27,7 @@
 	border-right: 1px solid #bdbdbd;
 }
 p{
-
+	font-size: 1.1em;
+    line-height: 1.8em;
+    color:#616161;
 }

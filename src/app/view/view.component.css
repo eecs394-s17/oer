@@ -1,3 +1,6 @@
+.container {
+	padding:20px 0px;
+}
 p {
 	font-size: 1.1em;
 	line-height: 2.5em;
@@ -9,5 +12,15 @@ p>b{
 	border-bottom: 1px solid #bdbdbd;
 }
 .textbook-not-added{
+	color:#B6ACD1;
+}
+.card-content{
+	color: white;
+	background-color: #684C96;
+}
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating){
+	color:#716C6B;
+}
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
 	color:#B6ACD1;
 }
