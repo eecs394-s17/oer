@@ -7,8 +7,8 @@
 	</p>
 	<div class="row"><div class="col offset-s1 s10 divider"></div></div>
 	<h5>Course Textbooks</h5>
-	<div *ngIf="courseService.textbooks.length">
-		<div class="row" *ngFor="let textbook of courseService.textbooks">
+	<!-- <div *ngIf="courseService.textbooks.length"> -->
+		<div class="row" *ngFor="let textbook of courseService.textbooks | async">
 			<div class="col s12 m6">
 				<div class="card deep-purple">
           <div class="card-content white-text">
@@ -21,8 +21,8 @@
         </div>
 			</div>
 		</div>
-	</div>
-	<h6 *ngIf="!courseService.textbooks.length" class="textbook-not-added">
+	<!-- </div> -->
+	<h6 *ngIf="(courseService.textbooks | async)?.length == 0" class="blue-text lighten-2-text">
 		Looks like there are no textbooks added for this course yet.
 	</h6>
 </div>

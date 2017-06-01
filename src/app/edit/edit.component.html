@@ -2,13 +2,13 @@
 	<h3>{{course.fullName}}</h3>
 	<h5>Textbooks you've added to this course already</h5>
 	<ul class="collection">
-		<li *ngFor="let textbook of courseService.textbooks" class="collection-item">
-			<div *ngIf="editing!=textbook.key">
+		<li *ngFor="let textbook of courseService.textbooks | async" class="collection-item">
+			<div *ngIf="editing!=textbook.$key">
 				<a href="{{textbook.link}}">{{ textbook.title }}</a>
-				<a (click)="editing = textbook.key" class="clear-textbook secondary-content"><i class="material-icons">mode_edit</i></a>
-				<a (click)="removeTextbook(textbook.key)" class="clear-textbook secondary-content red-text"><i class="material-icons">clear</i></a>
+				<a (click)="editing=textbook.$key" class="clear-textbook secondary-content"><i class="material-icons">mode_edit</i></a>
+				<a (click)="removeTextbook(textbook.$key)" class="clear-textbook secondary-content red-text"><i class="material-icons">clear</i></a>
 			</div>
-			<div *ngIf="editing==textbook.key">
+			<div *ngIf="editing==textbook.$key">
 				<form (ngSubmit)="onSubmitEditTextbook(textbook.title)" #textbookEditForm="ngForm">
 					<input type="text" [(ngModel)]="textbook.title" name="title" required>
 					<button class="waves-effect waves-light btn-large purple lighten-1" type="submit" [disabled]="!textbookEditForm.form.valid">Save</button>
@@ -16,7 +16,7 @@
 			</div>
 		</li>
 	</ul>
-	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">Looks like you haven't added any textbooks for this course yet.</h6>
+	<h6 *ngIf="(courseService.textbooks | async)?.length == 0" class="blue-text lighten-2-text">Looks like you haven't added any textbooks for this course yet.</h6>
 	<h5>Add New Textbook</h5>
 	<form (ngSubmit)="onSubmitTextbook()" #textbookForm="ngForm">
 		<div class="row">
