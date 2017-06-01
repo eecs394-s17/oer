@@ -7,6 +7,7 @@ export class Course {
   catalog_num: string;
   section: string;
   topic: string;
+  abbreviated_term: string;
 
   constructor(course?: any) {
     this.id = course && (course.$key ? course.$key : course.id) || '';
@@ -17,6 +18,7 @@ export class Course {
     this.catalog_num = course && course.catalog_num || '';
     this.section = course && course.section || '';
     this.topic = course && course.topic || null;
+    this.abbreviated_term = course && course.abbreviated_term || '';
   }
 
   public setCourse(course: any) {
@@ -28,6 +30,7 @@ export class Course {
     this.catalog_num = course.catalog_num; 
     this.section = course.section;
     this.topic = course.topic;
+    this.abbreviated_term = course && course.abbreviated_term || '';
   }
 
   get searchName() {

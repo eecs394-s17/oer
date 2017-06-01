@@ -1,3 +1,40 @@
-.course {
+h5{
+	font-family: 'Lato',sans-serf;
+	padding-left: 5px;
+}
+hr {
+	margin-top: 15px;
+	border-bottom:0px solid #95a5a6;
+}
+input {
+	font-size: 1.5rem;
+}
+.collection-item.course {
 	cursor: pointer;
+}
+.collection-item.course > p {
+	font-size: 0.8em;
+	color:#95a5a6;
+}
+.title{
+	color:#4E2A84;
+}
+
+.collection .collection-item.avatar .circle {
+	color:white;
+	padding:10px 8px;
+	background-color: #836EAA;
+}
+
+.input-field input[type=text]:focus + label {
+    color: #A495C3;
+    font-size: 1.5em;
+ }
+/* label underline focus color */
+.input-field input[type=text]:focus, .input-field input[type=text].valid {
+ border-bottom: 1px solid #A495C3;
+ box-shadow: 0 1px 0 0 #A495C3;
+}
+.input-field .prefix.active {
+ color: #A495C3;
 }

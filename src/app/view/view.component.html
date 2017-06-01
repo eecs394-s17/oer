@@ -1,5 +1,11 @@
 <div class="container">
-	<h3>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h3>
+	<h4>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h4>
+	<p>
+		<b>Course Instructor:</b>&nbsp;{{course.instructor}} <br />
+		<b>Quarter Offered:</b>&nbsp;{{course.term}} <br />
+		<b>Catalog Number:</b>&nbsp;{{course.subject}} {{course.catalog_num}}
+	</p>
+	<div class="row"><div class="col offset-s1 s10 divider"></div></div>
 	<h5>Course Textbooks</h5>
 	<div *ngIf="courseService.textbooks.length">
 		<div class="row" *ngFor="let textbook of courseService.textbooks">
@@ -16,7 +22,7 @@
 			</div>
 		</div>
 	</div>
-	<h6 *ngIf="!courseService.textbooks.length" class="blue-text lighten-2-text">
+	<h6 *ngIf="!courseService.textbooks.length" class="textbook-not-added">
 		Looks like there are no textbooks added for this course yet.
 	</h6>
 </div>
