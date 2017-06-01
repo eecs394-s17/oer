@@ -1,3 +1,13 @@
-.textbook {
-	cursor: pointer;
+p {
+	font-size: 1.1em;
+	line-height: 2.5em;
+}
+p>b{
+	color:#4E2A84;
+}
+.divider{
+	border-bottom: 1px solid #bdbdbd;
+}
+.textbook-not-added{
+	color:#B6ACD1;
 }
