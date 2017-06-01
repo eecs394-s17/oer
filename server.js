@@ -7,6 +7,8 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var fs = require('fs');
+// var jwt_decode = require('jwt-decode');
 
 // Firebase admin SDK
 var admin = require("firebase-admin");
@@ -16,7 +18,10 @@ admin.initializeApp({
     clientEmail: "firebase-adminsdk-qms01@oer-f0dd1.iam.gserviceaccount.com",
     privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
   }),
-  databaseURL: "https://oer-f0dd1.firebaseio.com"
+  databaseURL: "https://oer-f0dd1.firebaseio.com",
+  databaseAuthVariableOverride: {
+    uid: "server"
+  }
 });
 
 // Run the app by serving the static files

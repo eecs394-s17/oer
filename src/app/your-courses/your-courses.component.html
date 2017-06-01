@@ -1,11 +1,39 @@
 <div class="container">
-	<h3>Hello, {{prof_name}}!</h3>
-	<h5>Your Courses</h5>
-	<div class="collection">
-		<a *ngFor="let course of courses"  
-			(click)="sendCourse(course)" 
-			class="collection-item course">
-			 {{ course['subject'] + " " + course['catalog_num'] + ": " + (course['topic'] ? course['topic'] : course['title'])}}
-		</a>
+	<div *ngIf="!adminView">
+		<h3>Welcome back, {{prof_name}}!</h3>
+		<p>Choose a course below to add/edit textbooks.</p>
+		<h5>Your Courses</h5>
+		<div class="collection">
+			<a *ngFor="let course of courses"  
+				(click)="sendCourse(course)" 
+				class="collection-item course">
+				 {{ course['subject'] + " " + course['catalog_num'] + ": " + (course['topic'] ? course['topic'] : course['title'])}}
+			</a>
+		</div>
+	</div>
+	<div *ngIf="adminView">
+		<h3>Admin Panel</h3>
+		<p>Enter the ID of the professor whose courses you'd like to edit.</p>
+		<form (ngSubmit)="onSubmitCustomProfId()" #customProfForm="ngForm">
+			<div class="row">
+				<div class="input-field col s3">
+					<input type="text" id="customProfId" name="profId" [(ngModel)]="customProfId" required>
+					<label for="customProfId">Professor ID</label>
+				</div>
+			</div>
+			<div class="row">
+				<button class="waves-effect waves-light btn" type="submit" [disabled]="!customProfForm.form.valid">Edit</button>
+			</div>
+		</form>
+		<div class="row">
+			<p>Or, alternatively, select an existing professor from the list below.</p>
+		</div>
+		<div class="collection">
+			<a *ngFor="let prof of allProfs | async"
+				(click)="loadCourses(prof.instructorId, prof.name)"
+				class="collection-item course">
+				{{prof.name}}
+			</a>
+		</div>
 	</div>
 </div>

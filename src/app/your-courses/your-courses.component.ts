@@ -3,25 +3,7 @@ import { UserService } from '../../services/user.service';
 import { CourseService } from '../../services/course.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-
-// const mockCourse = {
-//   "id": 78818,
-//   "title": "Music and Mind",
-//   "term": "2010 Fall",
-//   "instructor": "Richard D Ashley",
-//   "subject": "MUS_THRY",
-//   "catalog_num": "251-0",
-//   "section": "20",
-//   "room": "Music Administration Building 229",
-//   "meeting_days": "MoWeFr",
-//   "start_time": "09:00",
-//   "end_time": "09:50",
-//   "seats": 20,
-//   "topic": null,
-//   "component": "LEC",
-//   "class_num": 16834,
-//   "course_id": 19151
-// };
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'app-your-courses',
@@ -31,43 +13,72 @@ import { Router } from '@angular/router';
 })
 export class YourCoursesComponent implements OnInit {
   courses = [];
-  prof_id = 2273; // TODO: get prof_id based on login
-  prof_name = "Professor"; // TODO: get prof_name based on login as well
+  prof_name = ''; // TODO: get prof_name based on login as well
+  adminView = false;
+  allProfs: FirebaseListObservable<any>;
+  customProfId: any;
 
   constructor(
     private courseService: CourseService, 
     private userService: UserService, 
-    private auth: AuthService,
-    private router: Router
+    public auth: AuthService,
+    private router: Router,
+    private db: AngularFireDatabase
     ) {
   }
 
   ngOnInit() {
     var subscription = this.auth.user.subscribe(user => {
       if (!user) {
-        console.log("Logged out.");
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
         subscription.unsubscribe();
       } else {
-        this.loadCourses();
-        console.log(user.displayName);
-        this.prof_name = user.displayName;
-        console.log(user);
+        var instructorSub = this.db.object('/instructors/' + user.uid + '/instructorId').subscribe(idObj => {
+            if (idObj.$exists()) {
+              this.loadCourses(idObj.$value, user.displayName);
+            } else {
+              var adminSub = this.db.object('/admins/' + user.uid).subscribe(adminObj => {
+                if (adminObj.$exists()) {
+                  this.adminView = true;
+                  this.allProfs = this.db.list('/instructors/', {
+                    query: {
+                      orderByChild: 'name'
+                    }
+                  });
+                } else {
+                  this.adminView = false;
+                }
+                adminSub.unsubscribe();
+              });
+            }
+            instructorSub.unsubscribe();
+          });
       }
     });
   }
 
-  loadCourses() {
-    this.userService.getUser(this.prof_id).subscribe(courses => {
-      if (courses.length > 0) {
-        // this.prof_name = courses[0]['instructor'];
-        this.courses = courses;
-      }
-    });
+  loadCourses(instructorId, name) {
+    if (instructorId) {
+      this.adminView = false;
+      var subscription = this.userService.getUser(instructorId).subscribe(courses => {
+        console.log(courses);
+        if (courses.length > 0) {
+          this.prof_name = courses[0].instructor.split(' ')[0];
+          this.courses = courses;
+        }
+        subscription.unsubscribe();
+      });
+    } else {
+      console.log("No instructor ID provided");
+    }
   }
 
   sendCourse(course) {
     this.courseService.assignCourse(course);
     this.router.navigate(['/your-courses/edit', course.id]);
+  }
+
+  onSubmitCustomProfId() {
+    this.loadCourses(this.customProfId, this.prof_name);
   }
 }

@@ -30,7 +30,10 @@ export class CourseService {
   private textbookIDs: FirebaseListObservable<any>;
   private storageRef;
 
-  constructor(@Inject(FirebaseApp) public firebaseApp: any, private db: AngularFireDatabase) {
+  constructor(
+    @Inject(FirebaseApp) public firebaseApp: any,
+    private db: AngularFireDatabase,
+  ) {
     this.storageRef = firebaseApp.storage().ref();
   }
 
@@ -61,14 +64,19 @@ export class CourseService {
   }
 
   removeTextbookFromCourse(key: string) {
-    this.db.object('/courses/' + this.course.id + '/textbooks/' + key).set(null);
+    var textbookRef = this.firebaseApp.database().ref('/courses/' + this.course.id + '/textbooks/' + key);
+    textbookRef.once('value').then(function(snapshot) {
+      var textbookId = snapshot.val();
+      this.db.object('/textbooks/' + textbookId).remove();
+      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
+    }.bind(this));
   }
 
-  addTextbook(title: string, link: string, file: File, description: string) {
-    if (link != '') {
+  addTextbook(title: string, link: string, file: File, description: string, uploadChoice: string) {
+    if (uploadChoice == 'url') {
       this.updateDbNewTextbook(title, link, description);
     } else {  //upload the file
-      var fileRef = this.storageRef.child(file.name)
+      var fileRef = this.storageRef.child(this.course.id + '_' + file.name)
       fileRef.put(file).then(function(snapshot) {
         console.log('Uploaded textbook!');
         fileRef.getDownloadURL().then(function(path) {
@@ -93,7 +101,6 @@ export class CourseService {
       'subject': this.course.subject,
       'catalog_num': this.course.catalog_num,
       'topic': this.course.topic,
-
     });
     this.db.list('/courses/' + this.course.id + '/textbooks').push(textbook.key);
   }
@@ -104,8 +111,6 @@ export class CourseService {
     textbookRef.once('value').then(function(snapshot) {
       var textbookId = snapshot.val();
       this.db.object('/textbooks/' + textbookId).update({'title': title});
-      this.db.object('/courses/' + this.course.id + '/textbooks/' + key).remove();
-      this.db.list('/courses/' + this.course.id + '/textbooks/').push(textbookId);
     }.bind(this));
   }
 }

@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { CourseService } from '../../services/course.service';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
@@ -10,7 +9,7 @@ import 'rxjs/add/operator/switchMap';
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
-  providers: [UserService, AuthService]
+  providers: [UserService]
 })
 export class EditComponent implements OnInit {
   course: any;
@@ -18,8 +17,11 @@ export class EditComponent implements OnInit {
   textbookLink: string = '';
   textbookDescription: string = '';
   textbookFile: File = null;
+  textbookFilePath: any = '';
   storageRef: any;
   editing: string = '';
+  textbookUpload: boolean = false;
+  textbookLinkChoices: string = '';
 
   constructor(
     public courseService: CourseService,
@@ -33,16 +35,23 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.course.title == '') {
-      console.log("Calling API to get course data...");
-      this.route.params
-        .switchMap((params) => this.userService.getCourse(params['id']))
-        .subscribe((course) => {
-          this.courseService.assignCourse(course[0]);
-          this.course = this.courseService.getCourse();
-          console.log(this.course);
-        });
-    }
+    var subscription = this.auth.user.subscribe(user => {
+      if (!user) {
+        this.router.navigate(['/login']);
+        subscription.unsubscribe();
+      } else {
+        if (this.course.title == '') {
+          console.log("Calling API to get course data...");
+          this.route.params
+            .switchMap((params) => this.userService.getCourse(params['id']))
+            .subscribe((course) => {
+              this.courseService.assignCourse(course[0]);
+              this.course = this.courseService.getCourse();
+              console.log(this.course);
+            });
+        }
+      }
+    });
   }
 
   removeTextbook(id) {
@@ -50,15 +59,16 @@ export class EditComponent implements OnInit {
   }
 
   onSubmitTextbook() {
-    if (this.textbookLink == '' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
-      //TODO: complain if the file isn't a pdf
+    if (this.textbookLinkChoices == 'uploadTextbook' && (this.textbookFile == null || this.textbookFile.type != 'application/pdf')) {
+      //TODO: Form validation - complain if file isn't a PDF.
       console.log("file is not a pdf. Ignoring submit request.");
     } else {
       console.log("description:" + this.textbookDescription);
-      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription);
+      this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription, this.textbookLinkChoices);
       this.textbookTitle = '';
       this.textbookLink = '';
       this.textbookFile = null;
+      this.textbookFilePath = '';
       this.textbookDescription = '';
     }
   }
