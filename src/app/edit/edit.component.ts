@@ -63,7 +63,6 @@ export class EditComponent implements OnInit {
       //TODO: Form validation - complain if file isn't a PDF.
       console.log("file is not a pdf. Ignoring submit request.");
     } else {
-      console.log("description:" + this.textbookDescription);
       this.courseService.addTextbook(this.textbookTitle, this.textbookLink, this.textbookFile, this.textbookDescription, this.textbookLinkChoices);
       this.textbookTitle = '';
       this.textbookLink = '';

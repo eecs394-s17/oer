@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
         var subscription = db.object('/textbooks/' + course.$key).subscribe(books => {
           if (books.$exists()) {
             var split_term = course.term.split(' ');
-            console.log(split_term[1].substring(0,1) + split_term[0].substring(2,4));
+            // console.log(split_term[1].substring(0,1) + split_term[0].substring(2,4));
             course.abbreviated_term = split_term[1].substring(0,1) + split_term[0].substring(2,4);
             if (course.subject in this.subjects) {
               this.subjects[course.subject].push(new Course(course));
