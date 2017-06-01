@@ -72,34 +72,37 @@ module.exports = function(app, passport, admin) {
       console.log("Generating token");
       admin.auth().createCustomToken(uid, additionalClaims)
       .then(function(customToken) {
+        var user = {
+          givenName: req.user.givenName,
+          token: customToken
+        };
+
         if (isProf) {
           console.log("Updating instructor in database");
-          var instructorId = 6215 //nameId[req.user.displayName];
+          var instructorId = nameId[req.user.displayName];
           admin.database().ref('instructors/' + uid).update({
             "name": req.user.displayName,
             "instructorId": instructorId
-          });
-
-          getCoursesByInstructorId(TERM, instructorId, function (err, response, body) {
-            if (err) { console.log(err); res.send({status: 500}); }
-            var instructorCourses = {};
-            courses = JSON.parse(body);
-            for (let i = 0; i < courses.length; i++) {
-              instructorCourses[courses[i].id] = true;
-            }
-            admin.database().ref('instructors/' + uid + '/courses').update(instructorCourses);
+          }, function() {
+            getCoursesByInstructorId(TERM, instructorId, function (err, response, body) {
+              if (err) { console.log(err); res.send({status: 500}); }
+              var instructorCourses = {};
+              courses = JSON.parse(body);
+              for (let i = 0; i < courses.length; i++) {
+                instructorCourses[courses[i].id] = true;
+              }
+              admin.database().ref('instructors/' + uid + '/courses').update(instructorCourses, function() {
+                res.send(JSON.stringify(user))
+              });
+            });
           });
         } else {
           admin.database().ref('admins/' + uid).update({
             "name": req.user.displayName,
+          }, function() {
+            res.send(JSON.stringify(user))
           });
         }
-
-        var user = {
-          givenName: req.user.givenName,
-          token: customToken
-        }
-        res.send(JSON.stringify(user));
       })
       .catch(function(error) {
         console.log("Error creating custom token:", error);
