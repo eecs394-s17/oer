@@ -56,6 +56,8 @@ Start the local heroku instance.
 ```
 heroku local
 ```
+Open a browser window and go to ```http://localhost:5000/``` to view the project.
+
 Each time you make changes to the code:
 * Stop the heroku server
     * ```ctrl-c```
