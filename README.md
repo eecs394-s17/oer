@@ -72,6 +72,7 @@ ng build && heroku local
 * You can add a textbook without adding a URL (form validation issue).
 * Removing all textbooks from a course does not remove the course from the browse list in real time.
 * More informative login errors not showing correctly (appears to be server-side issue with connect-flash).
+* Ideally, update all course information (title, catalog number, etc.) on the server side instead of with AngularFire2.
 * Styling should be updated on the Professor login side.
 * Site needs to be hosted on a Northwestern server.
 
