@@ -64,8 +64,13 @@ Each time you make changes to the code:
 ```
 ng build && heroku local
 ```
-## Known Bugs/Issues
-None, #PerfectCode #InfiniteVelocity
+## Known Bugs / TODO
+* You can add a textbook without adding a url
+* Removing all textbooks from a course does not update in real time
+* User/e2e/automated testing needs to be implemented
+* The application only handles term the current (Spring 2017)
+* The styling needs to be updated
+* A host on a Northwestern server needs to be found
 
 ## Running unit tests
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
