@@ -56,13 +56,13 @@ Start the local heroku instance.
 ```
 heroku local
 ```
-Open a browser window and go to ```http://localhost:5000/``` to view the project.
+Open a browser window and go to ```http://localhost:5000/``` to view the project. You must be connected to the Northwestern network (or possibly the Northwestern VPN, though this hasn't been verified) for the user authentication to work properly.
 
 Each time you make changes to the code:
-* Stop the heroku server
+* Stop the Heroku server.
     * ```ctrl-c```
-* Rebuild the project
-* Restart the heruko instance.
+* Rebuild the project.
+* Restart the Heroku instance.
 ```
 ng build && heroku local
 ```
