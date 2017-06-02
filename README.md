@@ -8,19 +8,18 @@
 
 Once you have recieved an API key:
 * Enter the [management console](https://api.asg.northwestern.edu/manage/login).
-* Allow referers depending on the domain(s) from which you will be making request.
-* (Add `*` to allow all domains)
+* Allow referers depending on the domain(s) from which you will be making requests (add `*` to allow all domains; useful in case you want to use multiple machines for development/staging, but remember to change this setting when app is production-ready).
 
 | Credentials | Details |
 | ------ | ------ |
 | Firebase | Admin SDK Privileges |
 | LDAP | Authentication |
 
-You should include all required credentials/private keys and environment variables in a `.env` file stored in the root directory of the project. Contact Chris Chen at ChristopherChen2018@u.northwestern.edu to acquire the credentials.
+You should include all required credentials/private keys and environment variables in a `.env` file stored in the root directory of the project. Contact Chris Chen at ChristopherChen2018@u.northwestern.edu to acquire the credentials and get access to the Firebase project.
 
 ### Required Tools
 #### Node.js and npm
-Download the most recent version of [Node.js](https://nodejs.org/en/), which should include the [Node Package Manager](https://www.npmjs.com/) (npm), and verify them.
+Download the most recent version of [Node.js](https://nodejs.org/en/), which should include the [Node Package Manager](https://www.npmjs.com/) (npm), and verify that they installed correctly.
 ```sh
 node -v
 npm -v
@@ -32,7 +31,7 @@ npm install -g @angular/cli
 ```
 #### Heruku CLI
 After downloading the correct [Heroku Command Line Interface](https://devcenter.heroku.com/articles/heroku-cli) for your OS:
-* Verify the version
+* Verify the version.
 * Login in with a Heroku account.
 ```
 heroku --version
@@ -67,14 +66,14 @@ Each time you make changes to the code:
 ng build && heroku local
 ```
 ## Known Bugs / TODO
-* Need to user test and create e2e/unit tests.
-* The application only shows and allows for managing courses from the most recent term (Spring 2017).
-* You can add a textbook without adding a URL (form validation issue).
-* Removing all textbooks from a course does not remove the course from the browse list in real time.
-* More informative login errors not showing correctly (appears to be server-side issue with connect-flash).
-* Ideally, update all course information (title, catalog number, etc.) on the server side instead of with AngularFire2.
-* Styling should be updated on the Professor login side.
-* Site needs to be hosted on a Northwestern server.
+* BUG: You can add a textbook without adding a URL (form validation issue).
+* BUG: Removing all textbooks from a course does not remove the course from the browse list in real time.
+* BUG: More informative login errors not showing correctly (appears to be server-side issue with connect-flash).
+* TODO: Create e2e/unit tests.
+* TODO: Allow professors and students to manage/view courses from multiple terms (currently, only Spring 2017 courses can be seen/edited).
+* TODO: Ideally, update all course information (title, catalog number, etc.) on the server side instead of with AngularFire2.
+* TODO: Update styling on the professor side of the application.
+* TODO: Host the site on a Northwestern server.
 
 ## Running unit tests
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
