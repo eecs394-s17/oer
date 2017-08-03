@@ -1,35 +1,24 @@
-<div id="landing">
-	<div class="header">
-		<div class="header-foreground">
-			<h3 class="title center">Northwestern's Open Textbook Library</h3>
-			<h6 class="subtitle center">
-				Free Openly licensed Textbooks for Northwestern Students
-			</h6>
+<div class="container mat-typography" id="landing">
+	<h1>NU Open Educational Resources</h1>
+	<h2>Free. Openly licensed. Textbooks.</h2>
+	<div class="row">
+		<div class="landing-blurb">
+			<p>Welcome to Northwestern University's Open Educational Resources (OER) Library! This website lists professor-approved textbooks for free download and use in university courses.</p>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col offset-m1 m10">
-			<p>
-				Welcome to Northwestern's Open Textbook Library! This website is a collection of 
-				open textbooks for Northwestern students ran by ASG. If a professor has used an 
-				open textbook for a class, then search through our collection to find it. The 
-				mission of the Open Textbook Library is to provide students with a repository of courses with free textbooks  that allow them to fulfill their major requirements at low cost.
-			</p>
-			<div class="row">
-				<div class="col s12 m6 center right-border">
-					<h5 class="button-title">Students</h5>
-					<a class="waves-effect waves-light btn-large" routerLink="/search">
-						<i class="material-icons left">search</i>Find a textbook...
-					</a>
-				</div>
-				<div class="col s12 m6 center">
-					<h5 class="button-title">Professors</h5>
-					<!-- This should go to a log-in page instead at some point. -->
-					<a class="waves-effect waves-light btn-large" routerLink="/login">
-						<i class="material-icons left">forward</i>Login
-					</a>
-				</div>
-			</div>
+		<div class="landing-blurb">
+			<p>The mission of the OER Library is to provide students with a repository of free textbooks that allow them to fulfill their major requirements at low cost. Managed by <a href="https://asg.northwestern.edu/">ASG.</a></p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="landing-blurb" id="browse">
+			<button md-button routerLink="/search" color="primary">Browse for Textbooks</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="landing-blurb" id="professors">
+			<p><b>Faculty member?</b> <a routerLink="/login">Login here.</a></p>
 		</div>
 	</div>
 </div>

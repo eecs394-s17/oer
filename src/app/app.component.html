@@ -1,20 +1,6 @@
-<nav>
-  <div class="nav-wrapper">
-    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-     <li><a routerLink="/">Home</a></li>
-    </ul>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <!-- <li><a routerLink="/">FAQ</a></li> -->
-      <!-- <li><a routerLink="/">Help</a></li> -->
-      <li><a *ngIf="authenticated" (click)="signOut()">Logout</a></li>
-    </ul>
-    <ul class="side-nav" id="mobile-demo">
-      <li><a routerLink="/">Home</a></li>
-      <li><a routerLink="/">FAQ</a></li>
-      <li><a routerLink="/">Help</a></li>
-      <li><a *ngIf="authenticated" (click)="signOut()">Logout</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- <md-toolbar color="primary">
+  <button md-button routerLink="/">Home</button>
+  <button md-button *ngIf="authenticated" (click)="signOut()">Logout</button>
+</md-toolbar> -->
+
 <router-outlet></router-outlet>

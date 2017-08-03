@@ -1,33 +1,37 @@
-.header {
-	height:210px;
-	background: url('/assets/img/header.jpg') center / cover;
+p {
+	line-height: 1.8em;
 }
-.header-foreground{
-	padding-top: 50px;
-	height:100%;
-	background: rgba(0,0,0,0.85);
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1000px;
 }
-.title{
-	font-size: 3.6em;
-	margin-top: 0px;
-	color: white;
+
+.row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
-.subtitle{
-	font-size:1.4em;
-	color:#836EAA;
-	margin-bottom: 30px;
+
+.landing-blurb {
+	flex-basis: 100%;
 }
-.button-title{
-	margin-bottom: 15px;
+
+#landing {
+	padding-top: 10%;
 }
-.btn-large{
-	background-color: #4E2A84;
+
+#browse {
+	text-align: center;
 }
-.right-border{
-	border-right: 1px solid #bdbdbd;
+
+#professors {
+	margin-top: 15px;
 }
-p{
-	font-size: 1.2em;
-    line-height: 1.8em;
-    color:#616161;
+
+@media screen and (min-width: 800px) {
+  .landing-blurb {
+  	flex: 0.5;
+  }
 }

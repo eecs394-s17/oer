@@ -23,6 +23,9 @@ import { AuthService } from '../services/auth.service';
 import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 import { LoginComponent } from './login/login.component';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MdButtonModule, MdToolbarModule} from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +45,9 @@ import { LoginComponent } from './login/login.component';
     AngularFireAuthModule,
     AppRoutingModule,
     Ng2FilterPipeModule,
+    BrowserAnimationsModule,
+    MdButtonModule,
+    MdToolbarModule
   ],
   providers: [CourseService, AuthService],
   bootstrap: [AppComponent]
