@@ -24,7 +24,7 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 import { LoginComponent } from './login/login.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule, MdToolbarModule} from '@angular/material';
+import {MdButtonModule, MdToolbarModule, MdInputModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,8 @@ import {MdButtonModule, MdToolbarModule} from '@angular/material';
     Ng2FilterPipeModule,
     BrowserAnimationsModule,
     MdButtonModule,
-    MdToolbarModule
+    MdToolbarModule,
+    MdInputModule
   ],
   providers: [CourseService, AuthService],
   bootstrap: [AppComponent]

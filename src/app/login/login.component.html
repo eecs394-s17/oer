@@ -1,19 +1,17 @@
-<div class="container">
-	<div class="row">
-		<form class="col s12" (ngSubmit)="onSubmitLogin()" #loginForm="ngForm">
+<div class="container mat-typography">
+	<div id="login">
+		<form (ngSubmit)="onSubmitLogin()" #loginForm="ngForm">
 			<div class="row">
-				<div class="input-field col s3">
-					<input id="username" name="username" type="text" [(ngModel)]="credentials.username" required>
-          <label for="username">NetID</label>
-				</div>
+				<md-input-container>
+					<input mdInput id="username" name="username" type="text" [(ngModel)]="credentials.username" placeholder="NetID" required>
+				</md-input-container>
 			</div>
 			<div class="row">
-				<div class="input-field col s3">
-					<input id="password" name="password" type="password" [(ngModel)]="credentials.password" required>
-          <label for="password">Password</label>
-				</div>
+				<md-input-container>
+					<input mdInput id="password" name="password" type="password" [(ngModel)]="credentials.password" placeholder="Password" required>
+				</md-input-container>
 			</div>
-			<button class="waves-effect waves-light btn" type="submit" [disabled]="!loginForm.form.valid">Login</button>
+			<button md-button color="primary" type="submit" [disabled]="!loginForm.form.valid">Login</button>
 		</form>
 	</div>
 	<div class="row">

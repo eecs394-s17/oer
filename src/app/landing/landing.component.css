@@ -2,18 +2,6 @@ p {
 	line-height: 1.8em;
 }
 
-.container {
-  margin: 0 auto;
-  padding: 0 15px;
-  max-width: 1000px;
-}
-
-.row {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-}
-
 .landing-blurb {
 	flex-basis: 100%;
 }
@@ -26,7 +14,7 @@ p {
 	text-align: center;
 }
 
-#professors {
+#profs {
 	margin-top: 15px;
 }
 
