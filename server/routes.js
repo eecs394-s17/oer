@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const request = require('request');
 const TERM = 4660;
+
 module.exports = function(app, passport, admin) {
   var nameId;
   fs.readFile('./name-id.json', 'utf8', function(err, data) {
@@ -15,7 +16,7 @@ module.exports = function(app, passport, admin) {
   //   nameSubjects = JSON.parse(data);
   // });
 
-  app.get('/get-courses', function(req, res) {
+  app.get('/courses', function(req, res) {
     var callback = function(err, response, body) {
       if (err) { console.log(err); res.send({status: 500}); }
       res.send(body);

@@ -41,24 +41,6 @@ export class CourseService {
   assignCourse(course: any) {
     this.course.setCourse(course);
     this.textbooks = this.db.list('/textbooks/' + this.course.id);
-    // this.textbookIDs = this.db.list('/courses/' + this.course.id + '/textbooks');
-    // this.textbookIDs.subscribe(ids => {
-    //   console.log("Textbook IDs retrieved...");
-    //   console.log(ids);
-    //   this.textbooks = [];
-    //   if (ids.length > 0) {
-    //     ids.forEach(function(id) {
-    //       var subscription = this.db.object('/textbooks/' + id.$value, { preserveSnapshot: true }).subscribe(snapshot => {
-    //         var textbook = snapshot.val();
-    //         textbook['key'] = id.$key;  // Hold onto key mapping to textbook id in course object
-    //         this.textbooks.push(textbook);
-    //         subscription.unsubscribe();
-    //       });
-    //     }, this);
-    //   } else {
-    //     console.log("No entry in database");
-    //   }
-    // });
   }
 
   getCourse() {

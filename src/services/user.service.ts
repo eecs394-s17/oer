@@ -8,12 +8,12 @@ export class UserService {
 
 	getUser(id) {
     console.log("Getting courses for instructor ID " + id);
-    return this.http.get('/get-courses/?term=4660&instructor=' + id)
+    return this.http.get('/courses/?term=4660&instructor=' + id)
       .map((res:Response) => res.json());
 	}
 
   getCourse(id) {
-    return this.http.get('/get-courses/?id=' + id)
+    return this.http.get('/courses/?id=' + id)
       .map((res: Response) => res.json());
   }
 }
