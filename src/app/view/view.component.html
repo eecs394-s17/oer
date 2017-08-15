@@ -1,28 +1,22 @@
-<div class="container">
-	<h4>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h4>
-	<p>
-		<b>Course Instructor:</b>&nbsp;{{course.instructor}} <br />
-		<b>Quarter Offered:</b>&nbsp;{{course.term}} <br />
-		<b>Catalog Number:</b>&nbsp;{{course.subject}} {{course.catalog_num}}
-	</p>
-	<div class="row"><div class="col offset-s1 s10 divider"></div></div>
-	<h5>Course Textbooks</h5>
-	<!-- <div *ngIf="courseService.textbooks.length"> -->
-		<div class="row" *ngFor="let textbook of courseService.textbooks | async">
-			<div class="col s12 m6">
-				<div class="card">
-          <div class="card-content">
-            <span class="card-title">{{textbook.title}}</span>
-            <p>{{textbook.description}}</p>
-          </div>
-          <div class="card-action">
-            <a href="{{textbook.link}}">Get this textbook!</a>
-          </div>
-        </div>
-			</div>
+<div class="container mat-typography" id="course-view">
+	<h1>{{course.subject}} {{course.catalog_num}}: {{course.title}}</h1>
+	<h2>{{course.instructor}} - {{course.term}}</h2>
+	<h3>Textbooks</h3>
+	<div class="row">
+		<div class="col card" *ngFor="let textbook of courseService.textbooks | async">
+			<md-card>
+				<md-card-title>{{textbook.title}}</md-card-title>
+				<md-card-content>
+					<p>Note from the instructor:</p>
+					<p class="textbook-description">{{textbook.description}}</p>
+				</md-card-content>
+				<md-card-actions>
+					<a target="_blank" href="{{textbook.link}}" md-button color="accent">Get this textbook!</a>
+				</md-card-actions>
+			</md-card>
 		</div>
-	<!-- </div> -->
-	<h6 *ngIf="(courseService.textbooks | async)?.length == 0" class="blue-text lighten-2-text">
+	</div>
+	<p *ngIf="(courseService.textbooks | async)?.length == 0">
 		Looks like there are no textbooks added for this course yet.
-	</h6>
+	</p>
 </div>
